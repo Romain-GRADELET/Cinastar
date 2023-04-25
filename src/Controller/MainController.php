@@ -74,17 +74,5 @@ class MainController extends AbstractController
         return $twigResponse;
     }
 
-    /**
-     * Page des favoris
-     * 
-     * @Route("/favorites", name="favorites_movies", methods={"GET"})
-     *
-     * @return Response
-     */
-    public function favorites(): Response
-    {
-        $twigResponse = $this->render("main/favorites.html.twig");
-
-        return $twigResponse;
-    }
+    
 }
