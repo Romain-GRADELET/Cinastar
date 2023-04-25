@@ -36,15 +36,14 @@ class MainController extends AbstractController
     /**
      * Page des résultats de recherche
      * 
-     * @Route("/list", name="list_movie", methods={"GET"})
+     * @Route("/search", name="search_movie", methods={"GET"})
      *
      * @return Response
      */
     public function list(): Response
     {
-        $twigResponse = $this->render("main/list.html.twig");
-
-        return $twigResponse;
+        // On peut return directement sur $this pour ne pas mettre une variable intermédiaire
+        return $this->render("main/list.html.twig");
     }
 
     /**
@@ -62,7 +61,6 @@ class MainController extends AbstractController
 
         return $twigResponse;
     }
-
 
     /**
      * Page des favoris
