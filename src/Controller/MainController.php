@@ -22,7 +22,13 @@ class MainController extends AbstractController
         // le chemin du fichier tiwg commence dans le dossier templates
         // * un tableau de donnée à afficher
         // cette méthode renvoit un objet Reponse, on va pouvoir le renvoyer
-        $twigResponse = $this->render("main/index.html.twig" /** + ViewData optionnel */);
+        $demoData = "Bonjour du mardi matin";
+        $twigResponse = $this->render("main/home.html.twig",
+        [
+            // les données se passe par un tableau associatif
+            // la clé du tableau deviendra le nom de la variable dans twig
+            "monTexteKilEstBo" => $demoData
+        ]);
         
         return $twigResponse;
     }
