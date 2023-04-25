@@ -62,6 +62,7 @@ class MainController extends AbstractController
      */
     public function show($id): Response
     {
+        //TODO : RÉcupérer le film avec son id
         $movie = MovieModel::getMovie($id);
 
         $twigResponse = $this->render("main/show.html.twig", 
