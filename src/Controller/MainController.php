@@ -6,6 +6,7 @@ use App\Models\MovieModel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class MainController extends AbstractController
 {
@@ -16,13 +17,20 @@ class MainController extends AbstractController
      * 
      * @return Response
      */
-    public function home(): Response
+    public function home(Request $request): Response
     {
-
         // TODO : récuperer la liste de tout les films
         // ! On utilise MovieModel tant que l'on a pas de BDD
         $allMovies = MovieModel::getAllMovies();
-        //dd($allMovies);
+        dump($allMovies);
+
+        // TODO : afficher la valeur de la session 'favoris'
+        // ? pour accèder à la session, il me faut la requete
+        // ? pour avoir la requete, je demande à Symfony : Injection de dépendance
+        $session = $request->getSession();
+        dump($session->get("favoris"));
+
+
 
         // la méthode render() prend 2 paramètres:
         // * le nom du fichier de vue que l'on veux utiliser
