@@ -36,7 +36,7 @@ class MainController extends AbstractController
     /**
      * Page des résultats de recherche
      * 
-     * @Route("/find", name="list_movie", methods={"GET"})
+     * @Route("/list", name="list_movie", methods={"GET"})
      *
      * @return Response
      */
@@ -50,13 +50,15 @@ class MainController extends AbstractController
     /**
      * Page des résultats d'un film/série
      * 
-     * @Route("/movie/{id}", name="show_movie", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route("/movie/{id}", name="show_movie", requirements={"id"="\d+"}), methods={"GET"}
      *
      * @return Response
      */
-    public function show(): Response
+    public function show($id): Response
     {
-        $twigResponse = $this->render("main/show.html.twig");
+        $twigResponse = $this->render("main/show.html.twig", [
+            "movieId" => $id
+        ]);
 
         return $twigResponse;
     }
