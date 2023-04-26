@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Models\MovieModel;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +13,7 @@ class FavoritesController extends AbstractController
 {
    
     /**
-     * Page des favoris
+     * Afficher le/les film(s) en favoris
      * 
      * @Route("/favorites", name="favorites_movies", methods={"GET"})
      *
@@ -19,6 +21,7 @@ class FavoritesController extends AbstractController
      */
     public function favorites(Request $request): Response
     {
+
         // TODO : stoker en session les favoris
         // ? où se trouve la session ? dans le cookies de la requete
         // ? où se trouve les informations qui proviennent de la requete ?
@@ -34,11 +37,56 @@ class FavoritesController extends AbstractController
         // * cela s'appele l'injection de dépendance
         $session = $request->getSession();
         // dd($session);
-        $session->set('favoris', "Vive les Radium");
+        //$session->set('favoris', "Vive les Radium");
+        // en PHP, sans symfony : $_SESSION["favoris"] = "Vive les Radium";
+        dump($session);
+
+        // TODO : récupérer le film favoris
+        $favorisMovie = $session->get('favoris', []);
+        //dd($favorisMovie);
+
+        return $this->render("favorites/favorites.html.twig",
+        [
+            "movie" => $favorisMovie
+        ]);
+    }
+
+    /**
+     * Ajout d'un film dans les favoris
+     *
+     * @Route("/favorites/add/{id}", name="favorites_movies_add", requirements={"id"="\d+"})
+     * 
+     * @return Response
+     */
+    public function add($id, Request $request): Response
+    {
+        // TODO : j'ai besoin de l'identifiant du film à mettre en favoris
+        // ? comment l'utilisateur me fournit l'ID ?
+        // avec un paramètre de route : {id}
+        //dd($id);
+
+        // TODO : j'ai besoin des informations du film en question
+        // je vais demander à la classe MovieModel de me donner les informations de ce film
+        $movie = MovieModel::getMovie($id);
+
+        // TODO : je veux mettre en session le film pour le garder en favoris
+        // pour accéder à la session, il me faut la requete
+        // on demande à symfony l'objet request
+        // * injection de dépendance
+        $session = $request->getSession();
+
+        // j'écrit en session le film que l'utilisateur à mis en favoris
+        $session->set("favoris", $movie);
+
         //dd($session);
 
-        $twigResponse = $this->render("favorites/favorites.html.twig");
-
-        return $twigResponse;
+        // ? j'ai fini le traitement, je n'ai rien à afficher de particulier
+        // je vais donc rediriger mon utilisateur vers l'affichage des favoris
+        // càd vers une autre route
+        // je renvois de suite cette response 
+        return $this->redirectToRoute('favorites_movies');
     }
+
+
+
 }
