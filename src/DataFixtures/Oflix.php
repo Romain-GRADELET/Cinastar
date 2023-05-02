@@ -82,39 +82,55 @@ class Oflix extends Fixture
 
         $title = [
             "Super Mario Bros, le film",
+            "Peaky Blinders",
+            "Les Gardiens de la Galaxie 2"
 
         ];
         $typeId = [
+            1,
+            2,
             1,
 
         ];
         $duration = [
             92,
+            52,
+            136,
 
         ];
         $rating = [
             4.2,
+            4.5,
+            4.1,
 
         ];
         $summary = [
             "Alors qu’ils tentent de réparer une canalisation souterraine, Mario et son frère Luigi, tous deux plombiers, se retrouvent plongés dans un nouvel univers féerique à travers un mystérieux conduit. Mais lorsque les deux frères sont séparés, Mario s’engage dans une aventure trépidante pour retrouver Luigi.",
-            "",
+            "En 1919, à Birmingham, soldats, révolutionnaires politiques et criminels combattent pour se faire une place dans le paysage industriel de l'après-Guerre.",
+            "Musicalement accompagné de la \"Awesome Mixtape n°2\" (la musique qu'écoute Star-Lord dans le film), Les Gardiens de la galaxie 2 poursuit les aventures de l'équipe alors qu'elle traverse les confins du cosmos. Les gardiens doivent combattre pour rester unis alors qu'ils découvrent les mystères de la filiation de Peter Quill. Les vieux ennemis vont devenir de nouveaux alliés et des personnages bien connus des fans de comics vont venir aider nos héros et continuer à étendre l'univers Marvel. ",
         ];
         $synopsis = [
             "Alors qu’ils tentent de réparer une canalisation souterraine, Mario et son frère Luigi, tous deux plombiers, se retrouvent plongés dans un nouvel univers féerique à travers un mystérieux conduit. Mais lorsque les deux frères sont séparés, Mario s’engage dans une aventure trépidante pour retrouver Luigi.
             Dans sa quête, il peut compter sur l’aide du champignon Toad, habitant du Royaume Champignon, et les conseils avisés, en matière de techniques de combat, de la Princesse Peach, guerrière déterminée à la tête du Royaume. C’est ainsi que Mario réussit à mobiliser ses propres forces pour aller au bout de sa mission. ",
-
+            "En 1919, à Birmingham, soldats, révolutionnaires politiques et criminels combattent pour se faire une place dans le paysage industriel de l'après-Guerre. Le Parlement s'attend à une violente révolte, et Winston Churchill mobilise des forces spéciales pour contenir les menaces. La famille Shelby compte parmi les membres les plus redoutables. Surnommés les \"Peaky Blinders\" par rapport à leur utilisation de lames de rasoir cachées dans leurs casquettes, ils tirent principalement leur argent de paris et de vol. Tommy Shelby, le plus dangereux de tous, va devoir faire face à l'arrivée de Campbell, un impitoyable chef de la police qui a pour mission de nettoyer la ville. Ne doit-il pas se méfier tout autant de la ravissante Grace Burgess ? Fraîchement installée dans le voisinage, celle-ci semble cacher un mystérieux passé et un dangereux secret. ",
+            "Musicalement accompagné de la \"Awesome Mixtape n°2\" (la musique qu'écoute Star-Lord dans le film), Les Gardiens de la galaxie 2 poursuit les aventures de l'équipe alors qu'elle traverse les confins du cosmos. Les gardiens doivent combattre pour rester unis alors qu'ils découvrent les mystères de la filiation de Peter Quill. Les vieux ennemis vont devenir de nouveaux alliés et des personnages bien connus des fans de comics vont venir aider nos héros et continuer à étendre l'univers Marvel. ",
         ];
         $releaseDate = [
             "2023/04/05",
+            "2013/01/01",
+            "2017/04/26",
 
         ];
         $country = [
+            "USA",
+            "UK",
             "USA",
 
         ];
         $poster = [
             "https://fr.web.img6.acsta.net/c_150_200/pictures/23/03/20/14/57/4979368.jpg",
+            "https://fr.web.img5.acsta.net/c_150_200/pictures/22/06/07/11/57/5231272.jpg",
+            "https://fr.web.img6.acsta.net/c_310_420/pictures/17/03/01/11/10/438835.jpg",
 
         ];
 

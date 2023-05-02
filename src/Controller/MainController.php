@@ -18,11 +18,11 @@ class MainController extends AbstractController
      * 
      * @return Response
      */
-    public function home(Request $request): Response
+    public function home(Request $request, MovieRepository $movieRepository): Response
     {
         // TODO : récuperer la liste de tout les films
         // ! On utilise MovieModel tant que l'on a pas de BDD
-        $allMovies = MovieModel::getAllMovies();
+        $allMovies = $movieRepository->findAll();
         dump($allMovies);
 
         // TODO : afficher la valeur de la session 'favoris'
@@ -39,14 +39,13 @@ class MainController extends AbstractController
         // * un tableau de donnée à afficher
         // cette méthode renvoit un objet Reponse, on va pouvoir le renvoyer
     
-        $twigResponse = $this->render("main/home.html.twig",
+        return $this->render("main/home.html.twig",
         [
             // les données se passe par un tableau associatif
             // la clé du tableau deviendra le nom de la variable dans twig
             "movieList" => $allMovies
         ]);
         
-        return $twigResponse;
     }
 
     /**
