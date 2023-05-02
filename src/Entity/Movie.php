@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MovieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -62,6 +64,22 @@ class Movie
      * @ORM\Column(type="string", length=255)
      */
     private $poster;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="movies")
+     */
+    private $genre;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Casting::class, mappedBy="movie")
+     */
+    private $castings;
+
+    public function __construct()
+    {
+        $this->genre = new ArrayCollection();
+        $this->castings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -172,6 +190,60 @@ class Movie
     public function setPoster(string $poster): self
     {
         $this->poster = $poster;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Genre>
+     */
+    public function getGenre(): Collection
+    {
+        return $this->genre;
+    }
+
+    public function addGenre(Genre $genre): self
+    {
+        if (!$this->genre->contains($genre)) {
+            $this->genre[] = $genre;
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Genre $genre): self
+    {
+        $this->genre->removeElement($genre);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Casting>
+     */
+    public function getCastings(): Collection
+    {
+        return $this->castings;
+    }
+
+    public function addCasting(Casting $casting): self
+    {
+        if (!$this->castings->contains($casting)) {
+            $this->castings[] = $casting;
+            $casting->setMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCasting(Casting $casting): self
+    {
+        if ($this->castings->removeElement($casting)) {
+            // set the owning side to null (unless already changed)
+            if ($casting->getMovie() === $this) {
+                $casting->setMovie(null);
+            }
+        }
 
         return $this;
     }
