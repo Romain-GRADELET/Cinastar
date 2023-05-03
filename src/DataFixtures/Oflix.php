@@ -57,23 +57,31 @@ class Oflix extends Fixture
         // TODO : créer les 2 types : film et série
         // =================================================
 
-        $types = [
-            'film',
-            'série',
-        ];
+        //foreach ($types as $type ) { 
 
-        foreach ($types as $type ) { 
-            // on commence par en créer 1, puis on fait une boucle
             // * faire un new
-            $newType = new Type();
+            $typeFilm = new Type();
 
             // * remplir les propriétés
-            $newType->setName($type);
+            $typeFilm->setName("film");
 
             // * appeler la méthode persist avec notre entité
             // on demande la persitance de l'objet
-            $manager->persist($newType);
-        }
+            $manager->persist($typeFilm);
+
+
+            // * faire un new
+            $typeSerie = new Type();
+
+            // * remplir les propriétés
+            $typeSerie->setName("série");
+
+            // * appeler la méthode persist avec notre entité
+            // on demande la persitance de l'objet
+            $manager->persist($typeSerie);
+
+
+        //}
 
 
         // =================================================
@@ -83,13 +91,13 @@ class Oflix extends Fixture
         $title = [
             "Super Mario Bros, le film",
             "Peaky Blinders",
-            "Les Gardiens de la Galaxie 2"
+            "Les Gardiens de la Galaxie 2",
 
         ];
-        $typeId = [
-            1,
-            2,
-            1,
+        $type = [
+            $typeFilm,
+            $typeSerie,
+            $typeFilm,
 
         ];
         $duration = [
@@ -141,7 +149,7 @@ class Oflix extends Fixture
 
             // On rempli les propriétés
             $newMovie->setTitle($title[$i]);
-            //$newMovie->setType($typeId[$i]);
+            $newMovie->setType($type[$i]);
             $newMovie->setDuration($duration[$i]);
             $newMovie->setRating($rating[$i]);
             $newMovie->setSummary($summary[$i]);

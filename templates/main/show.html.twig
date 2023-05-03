@@ -36,14 +36,15 @@
                         <strong class="d-inline-block mb-2 text-primary">{{ movieForTwig.type.name }}</strong>
                         <h3 class="mb-1">{{ movieForTwig.title }}</h3>
                         <div class="mb-1 text-muted">{{ movieForTwig.duration }} min</div>
+
                         <p>
-                            <span class="badge bg-warning text-dark">Animation</span>
-                            <span class="badge bg-warning text-dark">Aventure</span>
-                            <span class="badge bg-warning text-dark">Comédie</span>
-                            <span class="badge bg-warning text-dark">Famille</span>
+                            {% for genre in movieForTwig.genre %}
+                                <span class="badge bg-warning text-dark">{{genre.name}}</span>
+                            {% endfor %}
                         </p>
-                        <p>{{ movieForTwig.synopsis }}
-                        </p>
+
+                        <p>{{ movieForTwig.synopsis }}</p>
+
                         <div class="d-flex mb-4" style="color: orange;">
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
@@ -65,12 +66,17 @@
                         <dl class="row">
                             <dt class="col-sm-12">Avec</dt>
                             <dd class="col-sm-12">
-                                Acteur 1 (Tilt)<br>
-                                Acteur 2 (La reine)<br>
-                                Acteur 3 (Franz)<br>
+                            {% for actor in movieForTwig.castings %}
+                            
+                                 {{actor.creditOrder}}{{ actor.person.firstname}} {{actor.person.lastname}} ({{actor.role}})<br>
+
+                            {% endfor %}
+                        
                             </dd>
+
                             <dt class="col-sm-12">Pays</dt>
-                            <dd class="col-sm-12">USA</dd>
+                            <dd class="col-sm-12">{{ movieForTwig.country}}</dd>
+
                             <dt class="col-sm-12">Année</dt>
                             <dd class="col-sm-12">{{ movieForTwig.releaseDate | date('Y') }}</dd>
                         </dl>
