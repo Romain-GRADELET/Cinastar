@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Genre;
 use App\Entity\Movie;
+use App\Entity\Person;
 use App\Entity\Type;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -39,6 +40,7 @@ class Oflix extends Fixture
             "Science-fiction",
             "Thriller",
             "Western",
+            
         ];
 
         // On boucle avec un foreach
@@ -160,18 +162,64 @@ class Oflix extends Fixture
 
             $manager->persist($newMovie);
 
-
         }
 
         // =================================================
         // TODO : Création des PERSON
         // =================================================
 
+        $firstname = [
+            "Chris",
+            "Anya",
+            "Charlie",
+            "Jack",
+            "Cillian",
+            "Helen",
+            "Paul",
+            "Zoe",
+            "Dave",
+            "Michael",
+
+        ];
+
+        $lastname = [
+            "Pratt",
+            "Taylor-Joy",
+            "Day",
+            "Black",
+            "Murphy",
+            "McCrory",
+            "Anderson",
+            "Saldana",
+            "Bautista",
+            "Rooker",
+
+        ];
+
+        for ($i=0 ; $i <= count($firstname) ; $i++)
+        {
+            // Création d'une nouvelle personne
+            $newPerson = new Person();
+
+            // On set son firstname et son lastname
+            $newPerson->setFirstname($firstname[$i]);
+            $newPerson->setLastname($lastname[$i]);
+
+            // On valide l'intégration
+            $manager->persist($newPerson);
+        }
 
 
         // =================================================
         // TODO : Création du CASTING
         // =================================================
+
+
+        
+
+
+
+
 
 
         // * appeler la méthode flush
