@@ -59,10 +59,17 @@ class MainController extends AbstractController
      *
      * @return Response
      */
-    public function list(): Response
+    public function list(GenreRepository $genreRepository): Response
     {
+        $allGenres = $genreRepository->findAll();
+        //dump($allGenres);
+
+
         // On peut return directement sur $this pour ne pas mettre une variable intermédiaire
-        return $this->render("main/list.html.twig");
+        return $this->render("main/list.html.twig", 
+        [
+            "genreList" => $allGenres
+        ]);
     }
 
     /**

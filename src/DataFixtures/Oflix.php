@@ -59,8 +59,6 @@ class Oflix extends Fixture
         // TODO : créer les 2 types : film et série
         // =================================================
 
-        //foreach ($types as $type ) { 
-
             // * faire un new
             $typeFilm = new Type();
 
@@ -81,9 +79,6 @@ class Oflix extends Fixture
             // * appeler la méthode persist avec notre entité
             // on demande la persitance de l'objet
             $manager->persist($typeSerie);
-
-
-        //}
 
 
         // =================================================
@@ -209,14 +204,41 @@ class Oflix extends Fixture
             $manager->persist($newPerson);
         }
 
-
         // =================================================
         // TODO : Création du CASTING
         // =================================================
 
+        $role = [
+            "Mario",
+            "Princess Peach",
+            "Luigi",
+            "Bowser",
+            "Tommy Shelby",
+            "Tante Polly Gray",
+            "Arthur Shelby",
+            "Gina Gray",
+            "Star Lord",
+            "Gamora",
+            "Drax le destructeur",
+            "Yondu",
 
-        
+        ];
 
+        $creditOrder = [
+            1,
+            2,
+            3,
+            4,
+            1,
+            2,
+            3,
+            4,
+            1,
+            2,
+            3,
+            4,
+            
+        ];
 
 
 
