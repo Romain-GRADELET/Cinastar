@@ -35,6 +35,14 @@ INSERT INTO `casting` (`id`, `role`, `credit_order`, `movie_id`, `person_id`) VA
 (11,	'Drax le destructeur',	3,	4,	9),
 (12,	'Yondu',	4,	4,	10);
 
+DROP TABLE IF EXISTS `doctrine_migration_versions`;
+CREATE TABLE `doctrine_migration_versions` (
+  `version` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `executed_at` datetime DEFAULT NULL,
+  `execution_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 ('DoctrineMigrations\\Version20230427131727',	'2023-04-27 15:19:13',	26),
 ('DoctrineMigrations\\Version20230427133333',	'2023-04-27 15:34:28',	44),
@@ -147,7 +155,7 @@ CREATE TABLE `type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `type` (`id`, `name`) VALUES
-(1,	'film'),
-(2,	'série');
+(1,	'Film'),
+(2,	'Série');
 
--- 2023-05-02 16:50:10
+-- 2023-05-03 12:00:51

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Models\MovieModel;
+use App\Repository\GenreRepository;
 use App\Repository\MovieRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,18 +19,20 @@ class MainController extends AbstractController
      * 
      * @return Response
      */
-    public function home(Request $request, MovieRepository $movieRepository): Response
+    public function home(Request $request, MovieRepository $movieRepository, GenreRepository $genreRepository): Response
     {
-        // TODO : récuperer la liste de tout les films
-        // ! On utilise MovieModel tant que l'on a pas de BDD
+
         $allMovies = $movieRepository->findAll();
-        dump($allMovies);
+        //dump($allMovies);
+
+        $allGenres = $genreRepository->findAll();
+        //dump($allGenres);
 
         // TODO : afficher la valeur de la session 'favoris'
         // ? pour accèder à la session, il me faut la requete
         // ? pour avoir la requete, je demande à Symfony : Injection de dépendance
         $session = $request->getSession();
-        dump($session->get("favoris"));
+        //dump($session->get("favoris"));
 
 
 
@@ -43,7 +46,8 @@ class MainController extends AbstractController
         [
             // les données se passe par un tableau associatif
             // la clé du tableau deviendra le nom de la variable dans twig
-            "movieList" => $allMovies
+            "movieList" => $allMovies,
+            "genreList" => $allGenres,
         ]);
         
     }

@@ -63,7 +63,7 @@ class Oflix extends Fixture
             $typeFilm = new Type();
 
             // * remplir les propriétés
-            $typeFilm->setName("film");
+            $typeFilm->setName("Film");
 
             // * appeler la méthode persist avec notre entité
             // on demande la persitance de l'objet
@@ -74,7 +74,7 @@ class Oflix extends Fixture
             $typeSerie = new Type();
 
             // * remplir les propriétés
-            $typeSerie->setName("série");
+            $typeSerie->setName("Série");
 
             // * appeler la méthode persist avec notre entité
             // on demande la persitance de l'objet
