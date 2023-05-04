@@ -141,9 +141,9 @@
                         <dl class="row">
                             <dt class="col-sm-12">Avec</dt>
                             <dd class="col-sm-12">
-                            {% for actor in movieForTwig.castings|sort((b, a)=> b.creditOrder <=> a.creditOrder)  %}
+                            {% for casting in movieForTwig.castings|sort((b, a)=> b.creditOrder <=> a.creditOrder)  %}
                                 {% dump(movieForTwig) %}
-                                {{ actor.person.firstname}} {{actor.person.lastname}} <em>({{actor.role}})</em><br>
+                                {{ casting.person.firstname ~ " " ~ casting.person.lastname}} <em>({{casting.role}})</em><br>
 
                             {% endfor %}
                         

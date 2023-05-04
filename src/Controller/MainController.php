@@ -88,6 +88,12 @@ class MainController extends AbstractController
         $movie = $movieRepository->find($id);
         //dd($movie);
 
+        // ! Erreur $movie == null si le film n'a pas été trouvé en BDD
+        if ($movie === null)
+        {
+            throw $this->createNotFoundException("Ce film n'existe pas");
+        }
+
         $twigResponse = $this->render("main/show.html.twig",
         [
             "movieId" => $id,
