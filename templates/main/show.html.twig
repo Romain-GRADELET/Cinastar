@@ -129,12 +129,13 @@
                             <span class="ps-1">{{ movieForTwig.rating }}</span>
                         </div>
 
+                        {# on conditionne la partie saison que pour les série #}
                         {% if movieForTwig.type.name == 'série' %}
-                            <h2>3 Saisons</h2>
+                            <h2>{{ movieForTwig.seasons|length }} {{ movieForTwig.seasons|length > 1 ? 'Saisons' : 'Saison' }}</h2>
                             <ul class="list-unstyled">
-                                <li><span class="badge bg-danger fs-6 mb-2">Saison 1</span><small class="ms-1">(10 épisodes)</small></li>
-                                <li><span class="badge bg-danger fs-6 mb-2">Saison 2</span><small class="ms-1">(11 épisodes)</small></li>
-                                <li><span class="badge bg-danger fs-6 mb-2">Saison 3</span><small class="ms-1">(12 épisodes)</small></li>
+                                {% for season in movieForTwig.seasons %}
+                                    <li><span class="badge bg-danger fs-6 mb-2">Saison {{ season.number }}</span><small class="ms-1">({{ season.nbEpisodes }} épisodes)</small></li>
+                                {% endfor %}
                             </ul>
                         {% endif %}
 

@@ -6,6 +6,7 @@ use App\Entity\Casting;
 use App\Entity\Genre;
 use App\Entity\Movie;
 use App\Entity\Person;
+use App\Entity\Season;
 use App\Entity\Type;
 use App\Repository\MovieRepository;
 use DateTime;
@@ -138,6 +139,28 @@ class Oflix extends Fixture
                 // 3. pas de persist car les 2 objets (movie / genre) sont déjà connu de Doctrine
             }
         }
+
+        // TODO : association de Season avec Movie : entre 3 et 10 Season par série
+        foreach ($allMovies as $movie) {
+            // je teste si le type est une série
+            if ($movie->getType()->getName() == "série")
+            {
+                $randomNbSeason = mt_rand(3,10);
+                for ($i=1; $i <= $randomNbSeason; $i++) { 
+                    // 1. 
+                    $newSeason = new Season();
+                    // 2. 
+                    $newSeason->setNumber($i);
+                    $newSeason->setNbEpisodes(mt_rand(12, 24));
+                    // 2.b Movie est le porteur, c'est donc avec movie que l'on renseigne l'association
+                    $movie->addSeason($newSeason);
+
+                    //3. persist
+                    $manager->persist($newSeason);
+                }
+            }
+        }
+
 
         // * appeler la méthode flush
         // c'est ici que les requetes SQL sont exécutées
