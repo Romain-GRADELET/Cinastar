@@ -127,6 +127,18 @@ class Oflix extends Fixture
             }
         }
 
+        // TODO : association de Genre avec Movie : entre 3 et 5 genre par film
+        foreach ($allMovies as $movie) {
+            $randomNbGenre = mt_rand(3,5);
+            for ($i=0; $i < $randomNbGenre; $i++) { 
+                // 1. je cherche un genre aléatoire
+                $randomGenre = $allGenre[mt_rand(0, count($allGenre)-1)];
+                // 2. je remplit l'association
+                $movie->addGenre($randomGenre);
+                // 3. pas de persist car les 2 objets (movie / genre) sont déjà connu de Doctrine
+            }
+        }
+
         // * appeler la méthode flush
         // c'est ici que les requetes SQL sont exécutées
         $manager->flush();
