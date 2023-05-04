@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Models\MovieModel;
+use App\Repository\CastingRepository;
 use App\Repository\GenreRepository;
 use App\Repository\MovieRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -79,7 +80,7 @@ class MainController extends AbstractController
      *
      * @return Response
      */
-    public function show($id, MovieRepository $movieRepository): Response
+    public function show($id, MovieRepository $movieRepository, CastingRepository $castingRepository): Response
     {
         // TODO : récuperer le film avec son id
         // $movie = MovieModel::getMovie($id);
@@ -94,14 +95,35 @@ class MainController extends AbstractController
             throw $this->createNotFoundException("Ce film n'existe pas");
         }
 
-        $twigResponse = $this->render("main/show.html.twig",
+        // TODO : récuperer les castings du film, trié par creditOrder
+        // BBD : Repository, Casting : CastingRepository : Injection de dépendance
+        $allCastingFromMovie = $castingRepository->findBy(
+            // * critere de recherche
+            // on manipule TOUJOURS des objets
+            // donc on parle propriété : movie (de l'objet Casting)
+            // cette propriété doit être égale à l'objet $movie
+            [
+                "movie" => $movie
+            ],
+            // * orderBy
+            // on manipule TOUJOURS des objets
+            // on donne la propriété sur laquelle on trie
+            // en valeur, on donne le type de tri : ASC/DESC
+            [
+                "creditOrder" => "ASC"
+            ]
+        );
+        dump($allCastingFromMovie);
+
+        return $this->render("main/show.html.twig",
         [
             "movieId" => $id,
             // TODO fournir le film à ma vue
-            "movieForTwig" => $movie
+            "movieForTwig" => $movie,
+            // TODO : fournir les casting à la vue
+            "allCastingFromBDD" => $allCastingFromMovie
         ]);
 
-        return $twigResponse;
     }
 
     

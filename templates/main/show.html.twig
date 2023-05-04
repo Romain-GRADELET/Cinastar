@@ -141,11 +141,20 @@
                         <dl class="row">
                             <dt class="col-sm-12">Avec</dt>
                             <dd class="col-sm-12">
-                            {% for casting in movieForTwig.castings|sort((b, a)=> b.creditOrder <=> a.creditOrder)  %}
-                                {% dump(movieForTwig) %}
-                                {{ casting.person.firstname ~ " " ~ casting.person.lastname}} <em>({{casting.role}})</em><br>
 
+                        {# Solution 1 pour le tri par creditOrder (Via Twig) #}
+                        {% set sortedCastings = movieForTwig.castings|sort((a, b) => a.creditorder <=> b.creditorder) %}
+                            {% for casting in movieForTwig.castings %}
+                                {# {% dump(movieForTwig) %} #}
+                                {{ casting.person.firstname ~ " " ~ casting.person.lastname}} <em>({{casting.role}})</em><br>
                             {% endfor %}
+
+                            <hr>
+
+                        {# Solution 2 pour le tri par creditOrder (Via le MainController) #}
+                                {% for casting in allCastingFromBDD %}
+                                    {{ casting.person.firstname }} {{ casting.person.lastname }} ({{ casting.role }}) ({{ casting.creditOrder }})<br>
+                                {% endfor %}
                         
                             </dd>
 
