@@ -52,7 +52,7 @@ class MainController extends AbstractController
         ]);
         
     }
-
+    // ===============================================================
     /**
      * Page des résultats de recherche
      * 
@@ -73,6 +73,7 @@ class MainController extends AbstractController
         ]);
     }
 
+    // ===============================================================
     /**
      * Page des résultats d'un film/série
      * 
@@ -113,7 +114,11 @@ class MainController extends AbstractController
                 "creditOrder" => "ASC"
             ]
         );
-        dump($allCastingFromMovie);
+
+        // TODO : faire une requete avec la jointure entre Casting et Person
+        $castingsWithDQL = $castingRepository->findByMovieOrderByCreditOrderWithPerson($movie);
+        
+        //dump($allCastingFromMovie);
 
         return $this->render("main/show.html.twig",
         [
