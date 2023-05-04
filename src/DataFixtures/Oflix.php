@@ -22,6 +22,12 @@ class Oflix extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
+
+        // utilisation de Faker
+        // use the factory to create a Faker\Generator instance
+        $faker = \Faker\Factory::create('fr_FR');
+
+
         // TODO : créer 10 Genres
         $genres = ["Action", "Animation", "Aventure", "Comédie", "Dessin Animé", "Documentaire", "Drame", "Espionnage", "Famille", "Fantastique", "Historique", "Policier", "Romance", "Science-fiction", "Thriller", "Western"];
         // TODO : faire un foreach sur le tableau pour avoir des données plus réaliste
@@ -69,8 +75,8 @@ class Oflix extends Fixture
             // 1. faire une nouvelle instance
             $newPerson = new Person();
             //2. remplir les prop
-            $newPerson->setFirstname("prénom #" . $i);
-            $newPerson->setLastname("nom #" . $i);
+            $newPerson->setFirstname($faker->firstName());
+            $newPerson->setLastname($faker->lastName());
 
             // 3. demander la persitance
             $manager->persist($newPerson);

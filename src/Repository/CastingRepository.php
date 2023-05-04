@@ -88,7 +88,7 @@ class CastingRepository extends ServiceEntityRepository
 
         // on éxécute la requete
         $result = $query->getResult();
-        dd($result);
+        //dd($result);
         // on reçoit un tableau d'objet Casting
 
         // 3. Doctrine génère le SQL
