@@ -26,9 +26,12 @@ class Oflix extends Fixture
         // utilisation de Faker
         // use the factory to create a Faker\Generator instance
         $faker = \Faker\Factory::create('fr_FR');
+        $faker->addProvider(new \Xylis\FakerCinema\Provider\Movie($faker));
+        $faker->addProvider(new \Xylis\FakerCinema\Provider\Character($faker));
 
-
+        // =======================================================
         // TODO : créer 10 Genres
+        // =======================================================
         $genres = ["Action", "Animation", "Aventure", "Comédie", "Dessin Animé", "Documentaire", "Drame", "Espionnage", "Famille", "Fantastique", "Historique", "Policier", "Romance", "Science-fiction", "Thriller", "Western"];
         // TODO : faire un foreach sur le tableau pour avoir des données plus réaliste
         /** @var Genre[] $allGenre */
@@ -49,7 +52,9 @@ class Oflix extends Fixture
             $allGenre[] = $newGenre;
         }
 
+        // =======================================================
         // TODO : créer les 2 types : film et série
+        // =======================================================
         $types = ["film", "série"];
         /** @var Type[] $allTypes */
         $allTypes = [];
@@ -68,7 +73,10 @@ class Oflix extends Fixture
             $allTypes[] = $newType;
         }
 
+        // =======================================================
         // TODO : 2000 person
+        // =======================================================
+
         /** @var Person[] $allPerson */
         $allPerson = [];
         for ($i=0; $i < 2000; $i++) { 
@@ -86,21 +94,23 @@ class Oflix extends Fixture
 
         }
 
+        // =======================================================
         // TODO : créer 100 film
+        // =======================================================
         /** @var Movie[] $allMovies */
         $allMovies = [];
         for ($i=0; $i < 100; $i++) { 
             // 1. instance
             $newMovie = new Movie();
             // 2. prop
-            $newMovie->setTitle("Titre #" . $i);
+            $newMovie->setTitle($faker->movie());
             $newMovie->setDuration(mt_rand(10, 360));
             $newMovie->setRating(mt_rand(0,50) / 10);
-            $newMovie->setSummary("lorem ipsum summary");
-            $newMovie->setSynopsis("lorem ipsum synopsis");
+            $newMovie->setSummary($faker->overview());
+            $newMovie->setSynopsis($faker->overview());
             // ? https://www.php.net/manual/fr/datetime.construct.php
-            $newMovie->setReleaseDate(new DateTime("1970-01-01"));
-            $newMovie->setCountry("FR");
+            $newMovie->setReleaseDate(new DateTime($faker->date("Y-m-d")));
+            $newMovie->setCountry($faker->countryCode());
             $newMovie->setPoster("https://amc-theatres-res.cloudinary.com/amc-cdn/static/images/fallbacks/DefaultOneSheetPoster.jpg");
 
             // 2.bis : les associations
@@ -114,7 +124,11 @@ class Oflix extends Fixture
             $allMovies[] = $newMovie;
         }
 
+
+
+        // =======================================================
         // TODO : création de casting : il nous faut les objets Person ET les objets Movie
+        // =======================================================
         // Pour chaque film, je veux entre 3 et 5 casting
         foreach ($allMovies as $movie) {
             //random nb casting
@@ -123,7 +137,7 @@ class Oflix extends Fixture
                 // 1 .
                 $newCasting = new Casting();
                 // 2. 
-                $newCasting->setRole("Role #" . $i);
+                $newCasting->setRole($faker->character());
                 $newCasting->setCreditOrder($i);
                 // 2.b
                 $newCasting->setMovie($movie);
@@ -134,7 +148,10 @@ class Oflix extends Fixture
             }
         }
 
+        // =======================================================
         // TODO : association de Genre avec Movie : entre 3 et 5 genre par film
+        // =======================================================
+
         foreach ($allMovies as $movie) {
             $randomNbGenre = mt_rand(3,5);
             for ($i=0; $i < $randomNbGenre; $i++) { 
@@ -146,7 +163,9 @@ class Oflix extends Fixture
             }
         }
 
+        // =======================================================
         // TODO : association de Season avec Movie : entre 3 et 10 Season par série
+        // =======================================================
         foreach ($allMovies as $movie) {
             // je teste si le type est une série
             if ($movie->getType()->getName() == "série")
