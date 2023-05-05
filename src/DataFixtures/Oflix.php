@@ -13,6 +13,11 @@ use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
+use Xylis\FakerCinema\Provider\Movie as FakerMovieCinema;
+use Xylis\FakerCinema\Provider\Character as FakerCharacterCinema;
+use Bluemmb\Faker\PicsumPhotosProvider;
+
+
 class Oflix extends Fixture
 {
     /**
@@ -26,8 +31,12 @@ class Oflix extends Fixture
         // utilisation de Faker
         // use the factory to create a Faker\Generator instance
         $faker = \Faker\Factory::create('fr_FR');
-        $faker->addProvider(new \Xylis\FakerCinema\Provider\Movie($faker));
-        $faker->addProvider(new \Xylis\FakerCinema\Provider\Character($faker));
+        $faker->addProvider(new FakerMovieCinema($faker)); // Utilisation d'un Alians dans le Use
+        $faker->addProvider(new FakerCharacterCinema($faker)); // Utilisation d'un Alians dans le Use
+
+        // * les providers vont ajouter des méthodes avec de nouvelles fausses données
+        $faker->addProvider(new PicsumPhotosProvider($faker));
+
 
         // =======================================================
         // TODO : créer 10 Genres
@@ -106,12 +115,18 @@ class Oflix extends Fixture
             $newMovie->setTitle($faker->movie());
             $newMovie->setDuration(mt_rand(10, 360));
             $newMovie->setRating(mt_rand(0,50) / 10);
-            $newMovie->setSummary($faker->overview());
+            $newMovie->setSummary($faker->realText());
             $newMovie->setSynopsis($faker->overview());
             // ? https://www.php.net/manual/fr/datetime.construct.php
             $newMovie->setReleaseDate(new DateTime($faker->date("Y-m-d")));
             $newMovie->setCountry($faker->countryCode());
-            $newMovie->setPoster("https://amc-theatres-res.cloudinary.com/amc-cdn/static/images/fallbacks/DefaultOneSheetPoster.jpg");
+
+            $defaultUrl = "https://amc-theatres-res.cloudinary.com/amc-cdn/static/images/fallbacks/DefaultOneSheetPoster.jpg";
+            $picsumDefaultUrl = ("https://picsum.photos/200/300");
+            $picsumSeedUrl = ("https://picsum.photos/seed/radium".$i."/200/300");
+            $fakerPicsumSeedUrl = $faker->imageUrl(200,300, 'radium'.$i);
+            
+            $newMovie->setPoster($fakerPicsumSeedUrl);
 
             // 2.bis : les associations
             $randomType = $allTypes[mt_rand(0, count($allTypes)-1)];
