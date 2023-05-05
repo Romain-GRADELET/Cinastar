@@ -11,7 +11,9 @@ composer require annotations
 ## TWIG !
 composer require twig
 
-
+# E09
+# Génération de fomrulaire
+composer require symfony/form
 
 # E03
 

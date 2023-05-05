@@ -23,8 +23,7 @@
 
             <div class="col">
 
-                <div
-                    class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
                     <div class="col-4 movie__poster img-thumbnail"
                         style="background-image: url({{ movieForTwig.poster }});">
                         <img src="{{ asset('images/poster-placeholder.png') }}" class="img-fluid">
@@ -127,7 +126,11 @@
                         {% endif %}
         
                             <span class="ps-1">{{ movieForTwig.rating }}</span>
+                            
                         </div>
+
+                            <p><a href="{{path ('app_review_create', {"id": movieForTwig.id})}}" class="btn btn-primary" >Ajouter une critique</a></p>
+
 
                         {# on conditionne la partie saison que pour les série #}
                         {% if movieForTwig.type.name == 'série' %}
@@ -144,17 +147,17 @@
                             <dd class="col-sm-12">
 
                         {# Solution 1 pour le tri par creditOrder (Via Twig) #}
-                        {% set sortedCastings = movieForTwig.castings|sort((a, b) => a.creditorder <=> b.creditorder) %}
+                        {# {% set sortedCastings = movieForTwig.castings|sort((a, b) => a.creditorder <=> b.creditorder) %}
                             {% for casting in movieForTwig.castings %}
                                 {# {% dump(movieForTwig) %} #}
-                                {{ casting.person.firstname ~ " " ~ casting.person.lastname}} <em>({{casting.role}})</em><br>
-                            {% endfor %}
+                                {# {{ casting.person.firstname ~ " " ~ casting.person.lastname}} <em>({{casting.role}})</em><br>
+                            {% endfor %}  #}
 
                             <hr>
 
                         {# Solution 2 pour le tri par creditOrder (Via le MainController) #}
                                 {% for casting in allCastingFromBDD %}
-                                    {{ casting.person.firstname }} {{ casting.person.lastname }} ({{ casting.role }}) ({{ casting.creditOrder }})<br>
+                                    {{ casting.person.firstname }} {{ casting.person.lastname }} (<em>{{ casting.role }}</em>) ({{ casting.creditOrder }})<br>
                                 {% endfor %}
                         
                             </dd>
