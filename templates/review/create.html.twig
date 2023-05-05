@@ -12,19 +12,23 @@
 
             <div class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
                     
+                {{form_start(formulaire, {"attr" :{"novalidate": "novalidate"}})}}
+
                 <h2>Ajouter une critique sur le film : <strong>{{movie.title}}<strong> </h2>
+                    
+                    {{form_row(formulaire.username)}}
+                    {{form_row(formulaire.email)}}
+                    {{form_row(formulaire.content)}}
+                    {{form_row(formulaire.rating)}}
+                    {{form_row(formulaire.reactions)}}
+                    {{form_row(formulaire.watchedAt)}}
+
+                    <button type="submit" class="btn btn-primary">Validation</button>
+
+                {{form_end(formulaire)}}
         
-                
-
-
-
-
-
             </div>
         </div>
     </div>
 </div>
-  
-
-
 {% endblock %}

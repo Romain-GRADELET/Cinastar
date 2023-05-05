@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Review;
+use App\Form\ReviewType;
 use App\Repository\MovieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,18 +23,44 @@ class ReviewController extends AbstractController
 
 
         // TODO : Créer un formulaire à partir d'une entité
+        // 1.  On créer notre entité pour la lié au formulaire
+        $newReviewForForm = new Review();
+
+        // 2. Création du formulaire à partir de notre instance
+        $form = $this->createForm(ReviewType::class, $newReviewForForm);
 
         // TODO : Traitement du formulaire
+        $form->handleRequest($request);
 
-        // TODO : Fire notre insertion en BDD 
+        // on regarde si le formulaire a été soumis
+        // on demande à valider les données
+        // ! la validation des données n'est pas activé/utilisable par défaut
+        // * il faut ajouter des Assert dans l'entité
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            // TODO : faire notre insertion en BDD
+            // comme le formulaire a décidé des nom des éléments HTML
+            // ET qu'on lui donne la requete
+            // il va pouvoir récupérer les données tout seul !
+            dd($newReviewForForm);
+
+            // persist + flush
+            $entityManagerInterface->persist($newReviewForForm);
+            $entityManagerInterface->flush();
+
+            return $this->redirectToRoute("show_movie");
+        }
 
         // TODO : Donner le formulaire à notre vue
-
-
-
-
-        return $this->render('review/create.html.twig', [
+        return $this->renderForm("review/create.html.twig", [
+            "formulaire" => $form,
             "movie" => $movie
         ]);
+
+
+        
+        // return $this->render('review/create.html.twig', [
+        //     "movie" => $movie
+        // ]);
     }
 }
