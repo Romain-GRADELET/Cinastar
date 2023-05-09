@@ -20,24 +20,35 @@ class Review
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank(
-     *  message="Votre nom d'utilisateur est obligatoire"
+     * @Assert\NotBlank
+     * ? https://symfony.com/doc/5.4/reference/constraints/Length.html
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Your username must be at least {{ limit }} characters long",
+     *      maxMessage = "Your username cannot be longer than {{ limit }} characters"
      * )
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(
-     *  message="Votre Email est obligatoire"
+     * @Assert\NotBlank
+     * ? https://symfony.com/doc/5.4/reference/constraints/Email.html
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
      * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(
-     *  message="Le contenu de votre critique est obligatoire"
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Votre critique doit contenir un minimum de {{ limit }} caractères. Soyez plus précis svp.",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
      * )
      */
     private $content;
@@ -64,6 +75,8 @@ class Review
      * @Assert\NotBlank(
      *  message="Quand avez-vous vu ce film?"
      * ) 
+     * ? https://symfony.com/doc/current/reference/constraints/Type.html
+     * @Assert\Type("\DateTimeInterface")
      */
     private $watchedAt;
 
@@ -142,7 +155,7 @@ class Review
         return $this->watchedAt;
     }
 
-    public function setWatchedAt(\DateTimeImmutable $watchedAt): self
+    public function setWatchedAt(?\DateTimeImmutable $watchedAt): self
     {
         $this->watchedAt = $watchedAt;
 

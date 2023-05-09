@@ -6,6 +6,12 @@
                    
                 {{form_start(formulaire, {"attr" :{"novalidate": "novalidate"}})}}
 
+                {# 
+                {'attr': {'novalidate': 'novalidate'}}
+                ça fait doublon avec la version dans la classe
+                ici c'est plus spécifique
+                #}
+
                 <h2>Ajouter une critique sur le film : <strong>{{movie.title}}<strong> </h2>
                     
                     {{form_row(formulaire.username)}}

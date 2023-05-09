@@ -76,9 +76,9 @@ class ReviewType extends AbstractType
 
             ->add('watchedAt', DateType::class, [
                 //? https://symfony.com/doc/5.4/reference/forms/types/date.html#widget
-                "widget" => "single_text"
+                "widget" => "single_text",
                 // ? https://symfony.com/doc/5.4/reference/forms/types/date.html#input
-                // "input" => "datetime_immutable"
+                "input" => "datetime_immutable"
 
             ])
 
@@ -91,6 +91,7 @@ class ReviewType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Review::class,
+            "attr" => ["novalidate" => 'novalidate']
         ]);
     }
 }

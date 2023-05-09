@@ -31,38 +31,40 @@ class ReviewController extends AbstractController
         // 2. Création du formulaire à partir de notre instance
         $form = $this->createForm(ReviewType::class, $newReviewForForm);
 
-        // // TODO : Traitement du formulaire
-        // $form->handleRequest($request);
+        // TODO : Traitement du formulaire
+        // 1. Le formulaire ayant généré le HTML et les names des input
+        // Il doit récupérer les données tout seul: on lui donne les infos via l'objet Request (Injection de dépendances)
+        $form->handleRequest($request);
 
-        // // on regarde si le formulaire a été soumis
-        // // on demande à valider les données
-        // // ! la validation des données n'est pas activé/utilisable par défaut
-        // // * il faut ajouter des Assert dans l'entité
-        // if ($form->isSubmitted() && $form->isValid())
-        // {
-        //     // TODO : faire notre insertion en BDD
-        //     // comme le formulaire a décidé des nom des éléments HTML
-        //     // ET qu'on lui donne la requete
-        //     // il va pouvoir récupérer les données tout seul !
-        //     dd($newReviewForForm);
+        // 2. On vérifie sir le formulaire est soumis ou pas
 
-        //     // persist + flush
-        //     $entityManagerInterface->persist($newReviewForForm);
-        //     $entityManagerInterface->flush();
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            dd($newReviewForForm);
+            /*
+            App\Entity\Review {#496 ▼
+                -id: null
+                -username: "JB avec les radium"
+                -email: "nain@porte.koi"
+                -content: "azaezaegrhtjyuryf"
+                -rating: 5
+                -reactions: array:2 [▼
+                    0 => "think"
+                    1 => "sleep"
+                ]
+                -watchedAt: DateTimeImmutable @1683669600 {#1007 ▼
+                    date: 2023-05-10 00:00:00.0 Europe/Berlin (+02:00)
+                }
+                -movie: null
+                }
+            */
 
-        //     return $this->redirectToRoute("show_movie");
-        // }
-
+        }
+ 
         // TODO : Donner le formulaire à notre vue
         return $this->renderForm("review/create.html.twig", [
             "formulaire" => $form,
             "movie" => $movie
         ]);
-
-
-        
-        // return $this->render('review/create.html.twig', [
-        //     "movie" => $movie
-        // ]);
     }
 }
