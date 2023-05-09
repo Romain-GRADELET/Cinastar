@@ -44,7 +44,7 @@ class MainController extends AbstractController
         // * un tableau de donnée à afficher
         // cette méthode renvoit un objet Reponse, on va pouvoir le renvoyer
     
-        return $this->render("main/home.html.twig",
+        return $this->render("front/main/home.html.twig",
         [
             // les données se passe par un tableau associatif
             // la clé du tableau deviendra le nom de la variable dans twig
@@ -68,7 +68,7 @@ class MainController extends AbstractController
 
 
         // On peut return directement sur $this pour ne pas mettre une variable intermédiaire
-        return $this->render("main/list.html.twig", 
+        return $this->render("front/main/list.html.twig", 
         [
             "genreList" => $allGenres
         ]);
@@ -124,7 +124,7 @@ class MainController extends AbstractController
         // BBD, repository, Review : injection
         $allReviews = $reviewRepository->findBy(["movie" => $movie],["rating" => "DESC"]);
         
-        return $this->render("main/show.html.twig",
+        return $this->render("front/main/show.html.twig",
         [
             "movieId" => $id,
             // TODO fournir le film à ma vue

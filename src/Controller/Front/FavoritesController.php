@@ -45,7 +45,7 @@ class FavoritesController extends AbstractController
         $favorisMovie = $session->get('favoris', []);
         //dd($favorisMovie);
 
-        return $this->render("favorites/favorites.html.twig",
+        return $this->render("front/favorites/favorites.html.twig",
         [
             "movie" => $favorisMovie
         ]);
