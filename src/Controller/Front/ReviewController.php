@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Entity\Review;
 use App\Form\ReviewType;
@@ -74,7 +74,7 @@ class ReviewController extends AbstractController
         }
  
         // TODO : Donner le formulaire à notre vue
-        return $this->renderForm("review/create.html.twig", [
+        return $this->renderForm("front/review/create.html.twig", [
             "formulaire" => $form,
             "movie" => $movie
         ]);
