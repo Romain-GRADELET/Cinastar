@@ -26,6 +26,8 @@ composer require --dev symfony/debug-bundle
 ## le maker
 composer require --dev symfony/maker-bundle
 
+## PAckage sécurité CSRF
+composer require security-csrf 
 
 
 # E05
