@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Review;
 use App\Form\ReviewType;
 use App\Repository\MovieRepository;
+use App\Repository\ReviewRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ class ReviewController extends AbstractController
     /**
      * @Route("/movie/{id}/review/add", requirements={"id"="\d+"}, name="app_review_add")
      */
-    public function create($id, Request $request, MovieRepository $movieRepository, EntityManagerInterface $entityManagerInterface): Response
+    public function create($id, Request $request, MovieRepository $movieRepository, EntityManagerInterface $entityManagerInterface, ReviewRepository $reviewRepository): Response
     {
         // TODO : afficher le nom du film dans le template
         // BDD, Repository, Movie, MovieRepository : injection de dépendance
@@ -40,7 +41,7 @@ class ReviewController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            dd($newReviewForForm);
+            //dd($newReviewForForm);
             /*
             App\Entity\Review {#496 ▼
                 -id: null
@@ -59,6 +60,17 @@ class ReviewController extends AbstractController
                 }
             */
 
+            $newReviewForForm->setMovie($movie);
+            // 2 solutions pour persist + flush
+            // EntityManagerInterface : la seule classe qui à le droit de persist & flush
+            $entityManagerInterface->persist($newReviewForForm);
+            $entityManagerInterface->flush();
+
+            // Repository de la bonne entité : ReviewRepository
+            // $reviewRepository->add($newReview, true);
+
+            // Redirection vers la page du film
+            return $this->redirectToRoute("show_movie", ["id"=> $movie->getId()]);
         }
  
         // TODO : Donner le formulaire à notre vue

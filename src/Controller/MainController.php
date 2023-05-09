@@ -6,6 +6,7 @@ use App\Models\MovieModel;
 use App\Repository\CastingRepository;
 use App\Repository\GenreRepository;
 use App\Repository\MovieRepository;
+use App\Repository\ReviewRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,7 +82,7 @@ class MainController extends AbstractController
      *
      * @return Response
      */
-    public function show($id, MovieRepository $movieRepository, CastingRepository $castingRepository): Response
+    public function show($id, MovieRepository $movieRepository, CastingRepository $castingRepository, ReviewRepository $reviewRepository): Response
     {
         // TODO : récuperer le film avec son id
         // $movie = MovieModel::getMovie($id);
@@ -117,16 +118,22 @@ class MainController extends AbstractController
 
         // TODO : faire une requete avec la jointure entre Casting et Person
         $castingsWithDQL = $castingRepository->findByMovieOrderByCreditOrderWithPerson($movie);
-        
-        //dump($allCastingFromMovie);
+        dump($allCastingFromMovie);
 
+        // TODO : aller chercher les review du film
+        // BBD, repository, Review : injection
+        $allReviews = $reviewRepository->findBy(["movie" => $movie],["rating" => "DESC"]);
+        
         return $this->render("main/show.html.twig",
         [
             "movieId" => $id,
             // TODO fournir le film à ma vue
             "movieForTwig" => $movie,
             // TODO : fournir les casting à la vue
-            "allCastingFromBDD" => $allCastingFromMovie
+            "allCastingFromBDD" => $allCastingFromMovie,
+            // TODO : Fournir les reviews
+            "allReviewFromBDD" => $allReviews
+
         ]);
 
     }
