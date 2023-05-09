@@ -1,17 +1,9 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Ajouter une critique{% endblock %}
+{% block title %}Ajout de commentaire{% endblock %}
 
 {% block body %}
-
- <div class="container bg-light pt-5">
-
-    <div class="row mb-2">
-
-        <div class="col">
-
-            <div class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
-                    
+                   
                 {{form_start(formulaire, {"attr" :{"novalidate": "novalidate"}})}}
 
                 <h2>Ajouter une critique sur le film : <strong>{{movie.title}}<strong> </h2>
@@ -27,8 +19,4 @@
 
                 {{form_end(formulaire)}}
         
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}

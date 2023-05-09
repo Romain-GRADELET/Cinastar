@@ -25,7 +25,10 @@
         {# par convention les templates partials commencent par un _ #}
         {% include 'partials/_nav.html.twig' %}
         
+        <div class="container">
         {% block body %}{% endblock %}
+        </div>
+
 <!-- footer -->
     <footer class="container-fluid py-4 border-top text-center">
         <span class="text-muted">O'flix made with &hearts; at O'clock !

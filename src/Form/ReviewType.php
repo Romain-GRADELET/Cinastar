@@ -18,28 +18,71 @@ class ReviewType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                "label" => "Votre identifiant"
-                ])
+                "label" => "votre pseudo:",
+                "attr" => [
+                    "placeholder" => "votre pseudo ..."
+                ]
+            ])
 
             ->add('email', EmailType::class, [
-                "label" => "Votre Email",
-                "placeholder" => "exemple@mail.com"
-                ])
+                "label" => "votre email:",
+                "attr" => [
+                    "placeholder" => "exemple@mail.com"
+                ]
+            ])
 
             ->add('content', TextareaType::class, [
-                "label" => "Commentaire",
-                "minlength" => 100,
-                ])
+                "label" => "votre commentaire:",
+                "attr" => [
+                    "placeholder" => "Il était bien ce film ...."
+                ]
+            ])
 
+            // ? https://symfony.com/doc/5.4/reference/forms/types/choice.html
             ->add('rating', ChoiceType::class, [
-                "label" => "Avis"
+                // La liste fermée de choix
+                "choices" => [
+                    "Excellent" => 5,
+                    "Très bon" => 4, 
+                    "Bon" => 3,
+                    "Peut mieux faire" => 2, 
+                    "A éviter" => 1
+                ],
+                // * si on utilise le choiceType (ou ses enfants) toujours ajouter :
+                // multiple
+                // expanded
+                "multiple" => false,
+                "expanded" => true,
+                "label" => "Comment avez-vous trouvé ce film?"
             ])
-            ->add('reactions',ChoiceType::class, [
-                "label" => "Avis"
+
+            ->add('reactions', ChoiceType::class, [
+                // * si on utilise le choiceType (ou ses enfants) toujours ajouter :
+                // multiple
+                // expanded
+                // ! Notice: Array to string conversion
+                // si on ne met pas multiple à true, il va y avoir conflit avec le type de donnée de la propriétés
+                // tableau ==> multiple=true
+                "multiple" => true,
+                "expanded" => true,
+                'choices'  => [
+                    'Rire 😂' => "smile",
+                    "Pleurer 😭" => "cry", 
+                    "Réfléchir 🤔" => "think",
+                    "Dormir 😴" => "sleep", 
+                    "Rêver 💭" => "dream"
+                ],
             ])
+
             ->add('watchedAt', DateType::class, [
-                "format" => "dd-mm-YYYY"
+                //? https://symfony.com/doc/5.4/reference/forms/types/date.html#widget
+                "widget" => "single_text"
+                // ? https://symfony.com/doc/5.4/reference/forms/types/date.html#input
+                // "input" => "datetime_immutable"
+
             ])
+
+            // ! Object of class App\Entity\Movie could not be converted to string
             //->add('movie')
         ;
     }

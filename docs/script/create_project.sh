@@ -12,8 +12,8 @@ composer require annotations
 composer require twig
 
 # E09
-# Génération de fomrulaire
-composer require symfony/form
+## formulaire ET validation
+composer require form validator
 
 # E03
 

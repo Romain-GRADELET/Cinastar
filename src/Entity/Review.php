@@ -51,6 +51,7 @@ class Review
     private $rating;
 
     /**
+     * Doctrine utilise le type json pour stocker une valeur avec une structure complexe : Dans notre cas un tableau
      * @ORM\Column(type="json")
      * @Assert\NotBlank(
      *  message="Une réaction n'a pas été sélectionnée"
