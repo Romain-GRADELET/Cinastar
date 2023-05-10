@@ -15,7 +15,7 @@ class FavoritesController extends AbstractController
     /**
      * Afficher le/les film(s) en favoris
      * 
-     * @Route("/favorites", name="favorites_movies", methods={"GET"})
+     * @Route("/favorites", name="app_front_favorites_movies", methods={"GET"})
      *
      * @return Response
      */
@@ -54,7 +54,7 @@ class FavoritesController extends AbstractController
     /**
      * Ajout d'un film dans les favoris
      *
-     * @Route("/favorites/add/{id}", name="favorites_movies_add", requirements={"id"="\d+"})
+     * @Route("/favorites/add/{id}", name="app_front_favorites_movies_add", requirements={"id"="\d+"})
      * 
      * @return Response
      */
@@ -82,7 +82,7 @@ class FavoritesController extends AbstractController
         // je vais donc rediriger mon utilisateur vers l'affichage des favoris
         // càd vers une autre route
         // je renvois de suite cette response 
-        return $this->redirectToRoute('favorites_movies');
+        return $this->redirectToRoute('app_front_favorites_movies');
     }
 
 
