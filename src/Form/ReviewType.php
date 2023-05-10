@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Review;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -83,7 +84,13 @@ class ReviewType extends AbstractType
             ])
 
             // ! Object of class App\Entity\Movie could not be converted to string
-            //->add('movie')
+            ->add('movie', EntityType::class, 
+            [
+                // * EntityType: ChoiceType + Entity
+                // ChoiceType : multiple + expanded
+                // Entity : class + choice_label
+                
+            ])
         ;
     }
 
