@@ -23,19 +23,6 @@
         {% set isBackOffice = (app.request.attributes.get("_route") starts with "app_back_") %}
         {% include 'partials/_fullnav.html.twig' with {'isBackOffice': isBackOffice}  %}
         
-        {% if isBackOffice %}
-            {% include 'back/partials/_nav.html.twig' %}
-
-        {% else %}
-        
-   
-        {# je sépare la navigation du layout #}
-        {# l'intruction include fait la même chose que le include PHP #}
-        {# par convention les templates partials commencent par un _ #}
-        {% include 'front/partials/_nav.html.twig' %}
-
-        {% endif %}
-        
         <div class="container">
         {% block body %}{% endblock %}
         </div>
