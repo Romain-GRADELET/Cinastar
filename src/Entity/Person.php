@@ -97,4 +97,12 @@ class Person
 
         return $this;
     }
+
+    /**
+     * Utile pour l'affichage et pour les formulaire
+     */
+    public function getFullname()
+    {
+        return $this->getFirstname() . " " . $this->getLastname();
+    }
 }
