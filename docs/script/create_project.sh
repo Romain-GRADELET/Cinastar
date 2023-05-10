@@ -16,7 +16,6 @@ composer require twig
 composer require form validator
 
 # E03
-
 ## pour faire des liens correct dans twig vers nos assets
 composer require symfony/asset
 ## vive le debug : la barre de debug avec le backoffice de debug : profiler
@@ -25,9 +24,17 @@ composer require --dev symfony/profiler-pack
 composer require --dev symfony/debug-bundle
 ## le maker
 composer require --dev symfony/maker-bundle
+## Fixtures
+composer require orm-fixtures --dev
 
-## PAckage sécurité CSRF
+## Faker
+composer require fakerphp/faker
+## installation du provider picsum
+composer require --dev bluemmb/faker-picsum-photos-provider ^2.0
+
+## Package sécurité CSRF
 composer require security-csrf 
+
 
 
 # E05
