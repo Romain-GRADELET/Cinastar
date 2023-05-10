@@ -57,7 +57,7 @@ class MainController extends AbstractController
     /**
      * Page des résultats de recherche
      * 
-     * @Route("/search", name="search_movie", methods={"GET"})
+     * @Route("/search", name="app_front_movie_search", methods={"GET"})
      *
      * @return Response
      */
@@ -78,7 +78,7 @@ class MainController extends AbstractController
     /**
      * Page des résultats d'un film/série
      * 
-     * @Route("/movie/{id}", name="show_movie", requirements={"id"="\d+"}), methods={"GET"}
+     * @Route("/movie/{id}", name="app_front_show_movie", requirements={"id"="\d+"}), methods={"GET"}
      *
      * @return Response
      */
@@ -137,6 +137,9 @@ class MainController extends AbstractController
         ]);
 
     }
+
+
+    
 
     
 }

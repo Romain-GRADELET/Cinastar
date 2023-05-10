@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReviewController extends AbstractController
 {
     /**
-     * @Route("/movie/{id}/review/add", requirements={"id"="\d+"}, name="app_review_add")
+     * @Route("/movie/{id}/review/add", requirements={"id"="\d+"}, name="app_front_review_add")
      */
     public function create($id, Request $request, MovieRepository $movieRepository, EntityManagerInterface $entityManagerInterface, ReviewRepository $reviewRepository): Response
     {
@@ -70,7 +70,7 @@ class ReviewController extends AbstractController
             // $reviewRepository->add($newReview, true);
 
             // Redirection vers la page du film
-            return $this->redirectToRoute("show_movie", ["id"=> $movie->getId()]);
+            return $this->redirectToRoute("app_front_show_movie", ["id"=> $movie->getId()]);
         }
  
         // TODO : Donner le formulaire à notre vue
