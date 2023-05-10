@@ -98,7 +98,8 @@ class ReviewType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Review::class,
-            "attr" => ["novalidate" => 'novalidate']
+            "attr" => ["novalidate" => 'novalidate', "class" => "my-css-class"]
+            
         ]);
     }
 }
