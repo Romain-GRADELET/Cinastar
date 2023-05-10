@@ -7,6 +7,14 @@
 
      <a href="{{ path('app_back_season_new') }}" class="btn btn-success" >Création d'une nouvelle saison</a>
 
+    {% for message in app.flashes("success") %}
+        {# https://getbootstrap.com/docs/5.0/components/alerts/ #}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    
     <table class="table">
         <thead>
             <tr>
