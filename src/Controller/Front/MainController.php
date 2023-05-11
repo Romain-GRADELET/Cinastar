@@ -112,7 +112,7 @@ class MainController extends AbstractController
             // on donne la propriété sur laquelle on trie
             // en valeur, on donne le type de tri : ASC/DESC
             [
-                "creditOrder" => "ASC"
+                "creditOrder" => "ASC"  
             ]
         );
 

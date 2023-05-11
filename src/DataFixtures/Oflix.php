@@ -8,6 +8,7 @@ use App\Entity\Movie;
 use App\Entity\Person;
 use App\Entity\Season;
 use App\Entity\Type;
+use App\Entity\User;
 use App\Repository\MovieRepository;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -37,6 +38,42 @@ class Oflix extends Fixture
         // * les providers vont ajouter des méthodes avec de nouvelles fausses données
         $faker->addProvider(new PicsumPhotosProvider($faker));
 
+
+        // * la création de données
+        // 1. faire une nouvelle instance d'une entité
+        // 2. remplir toutes les propriétés obligatoires de cette instance
+        // 3. demander au manager de persiter l'entité
+        // 4. stocker dans un tableau les entités pour les relations futures
+
+        // =======================================================
+        // TODO : créer 3 utilisateurs, chacun avec un ROLE
+        // =======================================================
+        $admin = new User();
+        $admin->setEmail("admin@admin.com");
+        // * on donne le mot de passe hashé
+        // mdp : admin
+        $admin->setPassword('$2y$13$UX6UDREB8cdTuNVt3i9QcOFcyFqcQbCk.yh.D9rgYHJzs4GrfD/w.');
+        $admin->setRoles(['ROLE_ADMIN']);
+
+        $manager->persist($admin);
+
+        $managerUser = new User();
+        $managerUser->setEmail("manager@manager.com");
+        // * on donne le mot de passe hashé
+        // mdp : manager
+        $managerUser->setPassword('$2y$13$ehwmxDazwOE8ol3eTRz/C.YapEQ8UMyDFzolfGCg97gegVtOwjXu6');
+        $managerUser->setRoles(['ROLE_MANAGER']);
+
+        $manager->persist($managerUser);
+
+        $user = new User();
+        $user->setEmail("user@user.com");
+        // * on donne le mot de passe hashé
+        // mdp : user
+        $user->setPassword('$2y$13$J9VkB737ouoPOiH0oTGNQOlvqxZ6Hz95mZiubq/kFzgJ2B7nt608m');
+        $user->setRoles(['ROLE_USER']);
+
+        $manager->persist($user);
 
         // =======================================================
         // TODO : créer 10 Genres

@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * en déclarant la route ici, on préfixe toutes les routes du controller
@@ -18,6 +19,8 @@ class MovieController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
+     * 
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(MovieRepository $movieRepository): Response
     {
@@ -31,6 +34,10 @@ class MovieController extends AbstractController
      */
     public function new(Request $request, MovieRepository $movieRepository): Response
     {
+        // TODO : on applique la sécurité
+        // il faut le ROLE_ADMIN pour acceder ici
+        $this->denyAccessUnlessGranted("ROLE_ADMIN");
+
         $movie = new Movie();
         $form = $this->createForm(MovieType::class, $movie);
         $form->handleRequest($request);

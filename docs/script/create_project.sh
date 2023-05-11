@@ -42,6 +42,9 @@ composer require --dev bluemmb/faker-picsum-photos-provider ^2.0
 ## Package sécurité CSRF
 composer require security-csrf 
 
+## Package Sécurité
+composer require symfony/security-bundle
+
 ## installation de tout les composants pour Doctrine
 ## A METTRE EN DERNIER car il nous pose une question à laquelle on répond 'x'
 composer require symfony/orm-pack
