@@ -16,21 +16,35 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{path('default')}}">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{path('app_front_movie_search')}}"><i class="bi bi-film"></i> Films, séries TV</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{path('app_front_favorites_movies')}}"><i class="bi bi-bookmark"></i> Ma liste</a>
-                    </li>
+                
+                    {% if isBackOffice %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{path('app_back_default')}}">Accueil Backoffice</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{path('default')}}">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{path('app_front_movie_search')}}"><i class="bi bi-film"></i> Films, séries TV</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{path('app_front_favorites_movies')}}"><i class="bi bi-bookmark"></i> Ma liste</a>
+                        </li>
+                    {% endif %}
+
                 </ul>
+
+            {% if app.user == null %}
+
+            {% else %}
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown">
-                            <span>Charles</span>
+
+                            <span>{{app.user.email}}</span>
+                                                     
                             <i class="bi bi-person-square"></i>
                         </a>
                         <ul class="dropdown-menu">
@@ -42,15 +56,26 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
                                     <a class="dropdown-item" href="{{ path('app_back_default')}}">Backoffice</a>
                                 {% endif %}
                             </li>
-                            <li>
+
+                            {# <li>
                                 <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{{ path('app_logout')}}">Déconnexion</a></li>
+                            </li> 
+
+                            <li><a class="dropdown-item" href="{{ path('app_logout')}}">Déconnexion</a></li> #}
+
                         </ul>
                     </li>
                 </ul>
+            {% endif %}
 
-                <a href="{{ path('app_login') }}"><button type="button" class="btn btn-danger me-2">Connexion</button></a>
+                {# Si je ne suis pas connecté affiche le bouton CONNEXION #}
+                {% if app.user == null %}
+                    <a href="{{ path('app_login') }}"><button type="button" class="btn btn-danger me-2">Connexion</button></a>
+                {% else %}
+                {# Si je suis connecté affiche le bouton CONNEXION #}
+                    <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-danger me-2">Déconnexion</button></a>
+                {% endif %}
+
 
                 <form class="d-flex" action="list.html">
                     <input class="form-control form-control-sm me-2" name="search" type="search" placeholder="Rechercher...">

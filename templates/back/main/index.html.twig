@@ -5,8 +5,8 @@
 {% block body %}
     {% if is_granted('ROLE_MANAGER') %}
         {% include 'back/partials/_card_link.html.twig' with { 'entity' : 'movie' } %}
-    {% endif %}
+        {% include 'back/partials/_card_link.html.twig' with { 'entity' : 'season' } %}
+        {% include 'back/partials/_card_link.html.twig' with { 'entity' : 'casting' } %}
+    {% endif %}  
 
-    {% include 'back/partials/_card_link.html.twig' with { 'entity' : 'season' } %}
-    {% include 'back/partials/_card_link.html.twig' with { 'entity' : 'casting' } %}
 {% endblock %}

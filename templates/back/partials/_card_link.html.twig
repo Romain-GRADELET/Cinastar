@@ -2,7 +2,10 @@
   <div class="card-body">
   {# |capitalize pour mettre la majuscule #}
     <h5 class="card-title">{{ entity|capitalize }}</h5>
+  {% if is_granted('ROLE_ADMIN') %}
     <a href="{{ path('app_back_' ~ entity ~ '_new')}}" class="card-link btn btn-success">Create New</a>
+  {% endif %}
+
     <a href="{{ path('app_back_' ~ entity ~ '_index')}}" class="card-link btn btn-primary">List</a>
   </div>
 </div>

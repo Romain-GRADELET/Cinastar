@@ -32,10 +32,22 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^\/back\/\w+\/new$, roles: ROLE_ADMIN }
-        # - { path: ^/back/season/new$, roles: ROLE_ADMIN }
-        - { path: ^/back, roles: ROLE_MANAGER }
+        #- { path: ^\/back\/\w+\/new$, roles: ROLE_ADMIN }
+        #- { path: ^\/back\/\w+\/edit$, roles: ROLE_ADMIN }
+        #- { path: ^\/back\/\w+\/delete$, roles: ROLE_ADMIN }
+        #- { path: ^\/back/movie$, roles: ROLE_MANAGER}
+
+        #- { path: ^/back/season/new$, roles: ROLE_ADMIN }
+        #- { path: ^/back, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+        #- { path: ^/$, roles: PUBLIC_ACCESS }
+
+
+
+
+
+
 
     role_hierarchy:
         # le ROLE_ADMIN inclus le ROLE_MANAGER
@@ -43,6 +55,7 @@ security:
         # le ROLE_MANAGER inclus le ROLE_USER
         ROLE_MANAGER: [ROLE_USER, ROLE_CLIENT]
         # * donc le ROLE_ADMIN inclus le ROLE_USER et le ROLE_CLIENT
+        ROLE_USER: [IS_AUTHENTICATED_FULLY]
 
 when@test:
     security:

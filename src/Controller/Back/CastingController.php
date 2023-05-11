@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/back/casting", name="app_back_casting_")
@@ -17,6 +18,8 @@ class CastingController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
+     * 
+     * @IsGranted("ROLE_MANAGER")
      */
     public function index(CastingRepository $castingRepository): Response
     {
@@ -27,6 +30,8 @@ class CastingController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
+     * 
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request, CastingRepository $castingRepository): Response
     {
@@ -51,6 +56,8 @@ class CastingController extends AbstractController
 
     /**
      * @Route("/{id}", name="show", requirements={"id"="\d+"}, methods={"GET"})
+     * 
+     * @IsGranted("ROLE_MANAGER")
      */
     public function show(?Casting $casting): Response
     {
@@ -61,6 +68,8 @@ class CastingController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", requirements={"id"="\d+"}, methods={"GET", "POST"})
+     * 
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Casting $casting, CastingRepository $castingRepository): Response
     {
@@ -81,6 +90,8 @@ class CastingController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", requirements={"id"="\d+"}, methods={"POST"})
+     * 
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Casting $casting, CastingRepository $castingRepository): Response
     {

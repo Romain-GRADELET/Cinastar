@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class FavoritesController extends AbstractController
 {
@@ -16,6 +17,8 @@ class FavoritesController extends AbstractController
      * Afficher le/les film(s) en favoris
      * 
      * @Route("/favorites", name="app_front_favorites_movies", methods={"GET"})
+     * 
+     * @IsGranted("ROLE_USER")
      *
      * @return Response
      */
@@ -55,6 +58,8 @@ class FavoritesController extends AbstractController
      * Ajout d'un film dans les favoris
      *
      * @Route("/favorites/add/{id}", name="app_front_favorites_movies_add", requirements={"id"="\d+"})
+     * 
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
