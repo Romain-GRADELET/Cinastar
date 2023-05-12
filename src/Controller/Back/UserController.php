@@ -92,6 +92,8 @@ class UserController extends AbstractController
                 // * j'oublie pas de mettre à jour mon objet
                 $user->setPassword($hashedPassword);     
             }
+
+            $userRepository->add($user, true);
         
             // je met à jour la BDD
             return $this->redirectToRoute('app_back_user_index', [], Response::HTTP_SEE_OTHER);

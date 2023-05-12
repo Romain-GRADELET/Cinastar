@@ -40,7 +40,7 @@ class MovieController extends AbstractController
     {
         // TODO : on applique la sécurité
         // il faut le ROLE_ADMIN pour acceder ici
-        $this->denyAccessUnlessGranted("MOVIE_1430");
+        //$this->denyAccessUnlessGranted("MOVIE_1430");
 
         $movie = new Movie();
         $form = $this->createForm(MovieType::class, $movie);
