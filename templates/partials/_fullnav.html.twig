@@ -35,9 +35,8 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
 
                 </ul>
 
-            {% if app.user == null %}
+            {% if is_granted("IS_AUTHENTICATED_FULLY") %}
 
-            {% else %}
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -56,24 +55,28 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
                                     <a class="dropdown-item" href="{{ path('app_back_default')}}">Backoffice</a>
                                 {% endif %}
                             </li>
-
-                            {# <li>
-                                <hr class="dropdown-divider">
-                            </li> 
-
-                            <li><a class="dropdown-item" href="{{ path('app_logout')}}">Déconnexion</a></li> #}
-
+                            <li><hr class="dropdown-divider"></li> 
+                            <li><a class="dropdown-item" href="{{ path('app_logout')}}">Déconnexion</a></li> 
+                            <li><hr class="dropdown-divider"></li> 
+                            <li>
+                                    <ul>
+                                        {% for role in app.user.roles %}
+                                            <li>{{ role }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
                         </ul>
                     </li>
                 </ul>
             {% endif %}
 
-                {# Si je ne suis pas connecté affiche le bouton CONNEXION #}
-                {% if app.user == null %}
-                    <a href="{{ path('app_login') }}"><button type="button" class="btn btn-danger me-2">Connexion</button></a>
-                {% else %}
                 {# Si je suis connecté affiche le bouton CONNEXION #}
+                {% if is_granted("IS_AUTHENTICATED_FULLY")%}
                     <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-danger me-2">Déconnexion</button></a>
+                    
+                {% else %}
+                {# Si je ne suis pas connecté affiche le bouton DECONNEXION #}
+                    <a href="{{ path('app_login') }}"><button type="button" class="btn btn-danger me-2">Connexion</button></a>
                 {% endif %}
 
 
