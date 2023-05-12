@@ -18,9 +18,17 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 
                     {% if isBackOffice %}
+
                         <li class="nav-item">
                             <a class="nav-link active" href="{{path('app_back_default')}}">Accueil Backoffice</a>
                         </li>
+
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{path('app_back_user_index')}}">Gestion User</a>
+                            </li>
+                        {% endif %}
+                        
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link active" href="{{path('default')}}">Accueil</a>
@@ -50,7 +58,7 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
                             <li><a class="dropdown-item" href="#">Profil</a></li>
                             <li>
                                 {% if isBackOffice %}
-                                    <a class="dropdown-item" href="{{ path('default')}}">Frontoffice</a>
+                                    <a class="dropdown-item" href="{{ path('default')}}">Frontoffice</a>                                  
                                 {% else %}
                                     <a class="dropdown-item" href="{{ path('app_back_default')}}">Backoffice</a>
                                 {% endif %}
