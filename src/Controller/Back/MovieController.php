@@ -5,6 +5,7 @@ namespace App\Controller\Back;
 use App\Entity\Movie;
 use App\Form\MovieType;
 use App\Repository\MovieRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +40,7 @@ class MovieController extends AbstractController
     {
         // TODO : on applique la sécurité
         // il faut le ROLE_ADMIN pour acceder ici
-        $this->denyAccessUnlessGranted("ROLE_ADMIN");
+        $this->denyAccessUnlessGranted("MOVIE_1430");
 
         $movie = new Movie();
         $form = $this->createForm(MovieType::class, $movie);
@@ -78,6 +79,8 @@ class MovieController extends AbstractController
      */
     public function edit(Request $request, ?Movie $movie, MovieRepository $movieRepository): Response
     {
+        $this->denyAccessUnlessGranted("MOVIE_1430", $movie);
+
         if ($movie === null){throw $this->createNotFoundException("ce film n'existe pas");}
 
         $form = $this->createForm(MovieType::class, $movie);
