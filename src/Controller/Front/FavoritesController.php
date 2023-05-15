@@ -78,6 +78,10 @@ class FavoritesController extends AbstractController
         // * injection de dépendance
         $session = $request->getSession();
 
+        // todo =====================================================================
+        // TODO : création d'un tableau en session pour mettre plusieurs film en favoris
+        // todo =====================================================================
+
         // j'écrit en session le film que l'utilisateur à mis en favoris
         $session->set("favoris", $movie);
 
@@ -89,6 +93,11 @@ class FavoritesController extends AbstractController
         // je renvois de suite cette response 
         return $this->redirectToRoute('app_front_favorites_movies');
     }
+
+
+
+
+
 
 
 
