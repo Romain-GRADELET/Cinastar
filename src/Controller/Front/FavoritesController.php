@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class FavoritesController extends AbstractController
 {
@@ -22,9 +23,8 @@ class FavoritesController extends AbstractController
      *
      * @return Response
      */
-    public function favorites(Request $request): Response
+    public function favorites(Request $request ,MovieRepository $movieRepository): Response
     {
-
         // TODO : stoker en session les favoris
         // ? où se trouve la session ? dans le cookies de la requete
         // ? où se trouve les informations qui proviennent de la requete ?
@@ -36,6 +36,7 @@ class FavoritesController extends AbstractController
         // Pour demander un objet à Symfony, il suffit de l'ajouter en argument de notre function
         // avec le type hinting Symfony va savoir de quel objet on a besoin
         // dd($request);
+
         // * cette façon de faire est utilisé dans plusieurs language
         // * cela s'appele l'injection de dépendance
         $session = $request->getSession();
@@ -45,7 +46,7 @@ class FavoritesController extends AbstractController
         dump($session);
 
         // TODO : récupérer le film favoris
-        $favorisMovie = $session->get('favoris', []);
+        $favorisMovie = $session->get("favoris", []);
         //dd($favorisMovie);
 
         return $this->render("front/favorites/favorites.html.twig",
@@ -53,6 +54,7 @@ class FavoritesController extends AbstractController
             "movie" => $favorisMovie
         ]);
     }
+
 
     /**
      * Ajout d'un film dans les favoris
@@ -83,8 +85,10 @@ class FavoritesController extends AbstractController
         // todo =====================================================================
 
         // j'écrit en session le film que l'utilisateur à mis en favoris
-        $session->set("favoris", $movie);
+        //$session->set("favoris$id", $movie);
 
+        $session->set("favoris$id", $movie);
+ 
         //dd($session);
 
         // ? j'ai fini le traitement, je n'ai rien à afficher de particulier
@@ -115,10 +119,6 @@ class FavoritesController extends AbstractController
         // TODO : je remove le film en session grace à son nom 
         $session->remove("favoris");
 
-        // ? j'ai fini le traitement, je n'ai rien à afficher de particulier
-        // je vais donc rediriger mon utilisateur vers l'affichage des favoris
-        // càd vers une autre route
-        // je renvois de suite cette response 
         return $this->redirectToRoute('app_front_favorites_movies');
     }
 

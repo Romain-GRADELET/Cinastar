@@ -10,11 +10,13 @@
 
             <h2 class="text-muted fw-bold mb-4">Ma liste</h2>
 
+            
+            {{dump(movie)}}
+
             {% if movie is empty %}
                 <em>vous n'avez pas encore de favoris</em>
             {% else %}
-
-
+           
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>{{movie.title}}</strong> a été ajouté à votre liste de favoris.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -24,7 +26,7 @@
 
                 <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm bg-white position-relative">
                     <div class="col-4 movie__poster" style="background-image: url({{ movie.poster }});">
-                        <img src="images/poster-placeholder.png" class="img-fluid">
+                        <img src="{{asset ('images/poster-placeholder.png')}}" class="img-fluid">
                         <!-- img src="https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" class="img-fluid" -->
                     </div>
                     <div class="col-8 p-4 d-flex flex-column position-static">
