@@ -95,7 +95,32 @@ class FavoritesController extends AbstractController
     }
 
 
+    /**
+     * suppression d'un film dans les favoris
+     *
+     * @Route("/favorites/delete/{id}", name="app_front_favorites_movies_delete", requirements={"id"="\d+"})
+     * 
+     * @return Response
+     */
+    public function delete ($id, Request $request, MovieRepository $movieRepository): Response
+    {
+        // TODO : j'ai besoin de l'identifiant du film à supprimer des favoris
 
+        $movie = $movieRepository->find($id);
+
+        // TODO : je récupère la session 
+
+        $session = $request->getSession();
+
+        // TODO : je remove le film en session grace à son nom 
+        $session->remove("favoris");
+
+        // ? j'ai fini le traitement, je n'ai rien à afficher de particulier
+        // je vais donc rediriger mon utilisateur vers l'affichage des favoris
+        // càd vers une autre route
+        // je renvois de suite cette response 
+        return $this->redirectToRoute('app_front_favorites_movies');
+    }
 
 
 
