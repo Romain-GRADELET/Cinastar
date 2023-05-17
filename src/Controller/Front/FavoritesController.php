@@ -39,7 +39,7 @@ class FavoritesController extends AbstractController
     /**
      * Ajout d'un film dans les favoris
      *
-     * @Route("/favorites/add/{id}", name="app_front_favorites_movies_add", requirements={"id"="\d+"})
+     * @Route("/favorites/add/{id}", name="app_front_favorites_add", requirements={"id"="\d+"})
      * 
      * @IsGranted("ROLE_USER")
      * 
@@ -72,7 +72,7 @@ class FavoritesController extends AbstractController
     /**
      * suppression d'un film dans les favoris
      *
-     * @Route("/favorites/delete/{id}", name="app_front_favorites_movies_delete", requirements={"id"="\d+"})
+     * @Route("/favorites/delete/{id}", name="app_front_favorites_remove", requirements={"id"="\d+"})
      * 
      * @return Response
      */
