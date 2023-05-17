@@ -42,24 +42,46 @@ class FavoritesService
         return $favoris;
     }
 
+
     public function add(Movie $movie)
     {
+        // Je récupère ce qu'il y a déjà en session
+        $favorisList = $this->session->get("favoris", []);
+        // j'ajoute le nouveau film à un emplacement précis : son ID
+        $favorisList[$movie->getId()] = $movie;
         // TODO améliorer avec un tableau
-        $this->session->set("favoris", $movie);
+        $this->session->set("favoris", $favorisList);
         
     }
 
+
     public function remove(Movie $movie)
     {
-    $favoris = $this->session->get("favoris", []);
+        // TODO : supprimer un favoris
+        // 1. il me faut un id, parce que l'on pense au futur et la gestion de multiple favoris
+        // 2. il me faut la session pour récupérer les favoris
 
-        if ($favoris->getId() == $movie->getId()) {
-            // on a trouvé le bon film
-            // on vide le favoris, pour le futur on met un tableau vide
-            $favoris = [];
+        $favorisList = $this->session->get("favoris", []);
+
+        if (array_key_exists($movie->getId(), $favorisList)){
+            // ? https://www.php.net/manual/en/function.unset.php
+            unset($favorisList[$movie->getId()]);
             // met à jour la session
-            $this->session->set("favoris", $favoris);
+            $this->session->set("favoris", $favorisList);
+            
         }
+
     }
+
+    public function removeAll()
+    {
+        // On met un tableau vide pour purger nos favoris
+        $this->session->set("favoris", []);
+
+        // version plus bourine qui supprime directement la clé en session
+        // $this->session->remove("favoris");
+
+    }
+
 
 }

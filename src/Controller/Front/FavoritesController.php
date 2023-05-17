@@ -26,12 +26,12 @@ class FavoritesController extends AbstractController
     public function favorites(FavoritesService $favoritesService): Response
     {
         // TODO utiliser le service
-        $favorisMovie = $favoritesService->list();
+        $favorisList = $favoritesService->list();
 
         return $this->render('front/favorites/favorites.html.twig', 
         [
             // je donne le film favoris à ma vue pour l'affichage
-            "movie" => $favorisMovie
+            "movies" => $favorisList
         ]);
     }
 
@@ -87,8 +87,20 @@ class FavoritesController extends AbstractController
         return $this->redirectToRoute('app_front_favorites_movies');
     }
 
+    /**
+     * Supprime tout les favoris
+     * 
+     * @Route("favorites/clear", name="app_front_favorites_clear")
+     *
+     * @param FavoritesService $favoritesService
+     * @return Response
+     */
+    public function removeAll(FavoritesService $favoritesService): Response
+    {
+        $favoritesService->removeAll();
 
-
+        return $this->redirectToRoute('app_front_favorites_movies');
+    }
 
 
 }
