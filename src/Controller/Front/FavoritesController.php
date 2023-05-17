@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Models\MovieModel;
 use App\Repository\MovieRepository;
+use App\Services\FavoritesService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,38 +20,17 @@ class FavoritesController extends AbstractController
      * 
      * @Route("/favorites", name="app_front_favorites_movies", methods={"GET"})
      * 
-     * @IsGranted("ROLE_USER")
      *
      * @return Response
      */
-    public function favorites(Request $request ,MovieRepository $movieRepository): Response
+    public function favorites(FavoritesService $favoritesService): Response
     {
-        // TODO : stoker en session les favoris
-        // ? où se trouve la session ? dans le cookies de la requete
-        // ? où se trouve les informations qui proviennent de la requete ?
-        // dans symfony il y un objet Request, tout comme il y a un objet Reponse
-        // ? Comment on obtient cet objet Request ?
-        // new Request();
-        // ! ce n'est pas une bonne idée, car on devrait pas créer nous même une requete
-        // il faut demander à symfony, c'est lui qui gère/reçoit la requete
-        // Pour demander un objet à Symfony, il suffit de l'ajouter en argument de notre function
-        // avec le type hinting Symfony va savoir de quel objet on a besoin
-        // dd($request);
+        // TODO utiliser le service
+        $favorisMovie = $favoritesService->list();
 
-        // * cette façon de faire est utilisé dans plusieurs language
-        // * cela s'appele l'injection de dépendance
-        $session = $request->getSession();
-        // dd($session);
-        //$session->set('favoris', "Vive les Radium");
-        // en PHP, sans symfony : $_SESSION["favoris"] = "Vive les Radium";
-        dump($session);
-
-        // TODO : récupérer le film favoris
-        $favorisMovie = $session->get("favoris", []);
-        //dd($favorisMovie);
-
-        return $this->render("front/favorites/favorites.html.twig",
+        return $this->render('front/favorites/favorites.html.twig', 
         [
+            // je donne le film favoris à ma vue pour l'affichage
             "movie" => $favorisMovie
         ]);
     }
@@ -65,35 +45,25 @@ class FavoritesController extends AbstractController
      * 
      * @return Response
      */
-    public function add($id, Request $request, MovieRepository $movieRepository): Response
+    public function add($id, MovieRepository $movieRepository, FavoritesService $favoritesService): Response
     {
         // TODO : j'ai besoin de l'identifiant du film à mettre en favoris
         // ? comment l'utilisateur me fournit l'ID ?
         // avec un paramètre de route : {id}
-        //dd($id);
+        // dd($id);
 
+        // TODO : j'ai besoin des informations du film en question
         $movie = $movieRepository->find($id);
 
-        // TODO : je veux mettre en session le film pour le garder en favoris
-        // pour accéder à la session, il me faut la requete
-        // on demande à symfony l'objet request
-        // * injection de dépendance
-        $session = $request->getSession();
+        if ($movie === null){ throw $this->createNotFoundException("ce film n'existe pas.");}
 
-        // todo =====================================================================
-        // TODO : création d'un tableau en session pour mettre plusieurs film en favoris
-        // todo =====================================================================
-
-        // j'écrit en session le film que l'utilisateur à mis en favoris
-        //$session->set("favoris$id", $movie);
-
-        $session->set("favoris$id", $movie);
- 
-        //dd($session);
+        // TODO utiliser le service
+        $favoritesService->add($movie);
 
         // ? j'ai fini le traitement, je n'ai rien à afficher de particulier
         // je vais donc rediriger mon utilisateur vers l'affichage des favoris
         // càd vers une autre route
+        // la méthode redirectToRoute() me fournit une Response
         // je renvois de suite cette response 
         return $this->redirectToRoute('app_front_favorites_movies');
     }
@@ -106,19 +76,22 @@ class FavoritesController extends AbstractController
      * 
      * @return Response
      */
-    public function delete ($id, Request $request, MovieRepository $movieRepository): Response
+    public function delete ($id, Request $request): Response
     {
-        // TODO : j'ai besoin de l'identifiant du film à supprimer des favoris
+        // TODO : supprimer un favoris
+        // 1. il me faut un id, parce que l'on pense au futur et la gestion de multiple favoris
+        // 2. il me faut la session pour récupérer le favoris
+        $favoris = $request->getSession()->get("favoris");
 
-        $movie = $movieRepository->find($id);
+        if ($favoris->getId() == $id){
+            // on a trouvé le bon film
+            // on vide le favoris, pour le futur on met un tableau vide
+            $favoris = [];
+            // met à jour la session
+            $request->getSession()->set("favoris", $favoris);
+        }
 
-        // TODO : je récupère la session 
-
-        $session = $request->getSession();
-
-        // TODO : je remove le film en session grace à son nom 
-        $session->remove("favoris");
-
+        // on redirige pour l'affichage
         return $this->redirectToRoute('app_front_favorites_movies');
     }
 
