@@ -141,11 +141,11 @@ class Oflix extends Fixture
         }
 
         // =======================================================
-        // TODO : créer 100 film
+        // TODO : créer 10 film
         // =======================================================
         /** @var Movie[] $allMovies */
         $allMovies = [];
-        for ($i=0; $i < 100; $i++) { 
+        for ($i=0; $i < 10; $i++) { 
             // 1. instance
             $newMovie = new Movie();
             // 2. prop
