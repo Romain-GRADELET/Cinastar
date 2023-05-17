@@ -23,6 +23,8 @@ class FavoritesService
     public function __construct(RequestStack $request)
     {
         $this->session = $request->getSession();
+        // ? a but de débug pour voir comment est fait la création de notre service
+        // throw new Exception();
     }
 
 
@@ -47,6 +49,17 @@ class FavoritesService
         
     }
 
+    public function remove(Movie $movie)
+    {
+    $favoris = $this->session->get("favoris", []);
 
+        if ($favoris->getId() == $movie->getId()) {
+            // on a trouvé le bon film
+            // on vide le favoris, pour le futur on met un tableau vide
+            $favoris = [];
+            // met à jour la session
+            $this->session->set("favoris", $favoris);
+        }
+    }
 
 }

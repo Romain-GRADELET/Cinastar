@@ -76,20 +76,12 @@ class FavoritesController extends AbstractController
      * 
      * @return Response
      */
-    public function delete ($id, Request $request): Response
+    public function remove ($id, FavoritesService $favoritesService, MovieRepository $movieRepository): Response
     {
-        // TODO : supprimer un favoris
-        // 1. il me faut un id, parce que l'on pense au futur et la gestion de multiple favoris
-        // 2. il me faut la session pour récupérer le favoris
-        $favoris = $request->getSession()->get("favoris");
 
-        if ($favoris->getId() == $id){
-            // on a trouvé le bon film
-            // on vide le favoris, pour le futur on met un tableau vide
-            $favoris = [];
-            // met à jour la session
-            $request->getSession()->set("favoris", $favoris);
-        }
+        $movie = $movieRepository->find($id);
+
+        $favoritesService->remove($movie);
 
         // on redirige pour l'affichage
         return $this->redirectToRoute('app_front_favorites_movies');
