@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
 // composer require symfony/http-client
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -8,7 +8,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OmdbApi 
 {
-    private $apiKey = "a93b767b";
+    private $apiKey = "e8ee782";
     private $client;
 
     public function __construct(HttpClientInterface $client)
