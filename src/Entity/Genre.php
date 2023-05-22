@@ -18,6 +18,7 @@ class Genre
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"genre_browse"})
+     * @Groups({"movie_read"})
      * 
      */
     private $id;
@@ -25,6 +26,7 @@ class Genre
     /**
      * @ORM\Column(type="string", length=64)
      * @Groups({"genre_browse"})
+     * @Groups({"movie_read"})
      */
     private $name;
 

@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Radium O'flix",
-    "dateExported": "2023-05-22T11:25:16.158Z",
+    "dateExported": "2023-05-22T12:39:14.878Z",
     "version": "1.1",
     "folders": [
         {
@@ -10,6 +10,13 @@
             "containerId": "",
             "created": "2023-05-22T11:23:22.948Z",
             "sortNum": 10000
+        },
+        {
+            "_id": "96eaffd2-bf13-4247-b5f8-1a41bd47cf41",
+            "name": "Movies",
+            "containerId": "",
+            "created": "2023-05-22T12:36:25.366Z",
+            "sortNum": 30000
         }
     ],
     "requests": [
@@ -22,7 +29,21 @@
             "method": "GET",
             "sortNum": 10000,
             "created": "2023-05-22T11:24:08.426Z",
-            "modified": "2023-05-22T11:24:08.426Z",
+            "modified": "2023-05-22T12:38:04.873Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a7d5f7e6-789f-4bc0-8df5-5468f38d2e8e",
+            "colId": "b0195168-cd06-418c-88b6-8a9cba36aa74",
+            "containerId": "96eaffd2-bf13-4247-b5f8-1a41bd47cf41",
+            "name": "http://localhost:8000/api/movie/1405",
+            "url": "http://localhost:8000/api/movie/1405",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-05-22T12:36:45.683Z",
+            "modified": "2023-05-22T12:36:45.683Z",
             "headers": [],
             "params": [],
             "tests": []

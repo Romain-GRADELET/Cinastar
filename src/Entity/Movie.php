@@ -19,6 +19,7 @@ class Movie
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"genre_browse"})
+     * @Groups({"movie_read"})
      */
     private $id;
 
@@ -26,6 +27,7 @@ class Movie
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
      * @Groups({"genre_browse"})
+     * @Groups({"movie_read"})
      */
     private $title;
 
@@ -33,61 +35,73 @@ class Movie
      * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="movies")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank
+     * 
+     * @Groups({"movie_read"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
+     * @Groups({"movie_read"})
      */
     private $duration;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"movie_read"})
      */
     private $rating;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
+     * @Groups({"movie_read"})
      */
     private $summary;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank
+     * @Groups({"movie_read"})
      */
     private $synopsis;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank
+     * @Groups({"movie_read"})
      */
     private $releaseDate;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\NotBlank
+     * @Groups({"movie_read"})
      */
     private $country;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"movie_read"})
      */
     private $poster;
 
     /**
      * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="movies")
+     * @Groups({"movie_read"})
      */
     private $genre;
 
     /**
      * @ORM\OneToMany(targetEntity=Casting::class, mappedBy="movie")
+     * @Groups({"movie_read"})
      */
     private $castings;
 
     /**
      * @ORM\OneToMany(targetEntity=Season::class, mappedBy="movie")
+     * @Groups({"movie_read"})
      */
     private $seasons;
 
