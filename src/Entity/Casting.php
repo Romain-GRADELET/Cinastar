@@ -16,30 +16,37 @@ class Casting
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"movie_read"})
+     * @Groups({"person_read"})
+     * @Groups({"person_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"movie_read"})
+     * @Groups({"person_read"})
+     * @Groups({"person_list"})
      */
     private $role;
 
     /**
      * @ORM\Column(type="integer")
      * @Groups({"movie_read"})
+     * @Groups({"person_read"})
      */
     private $creditOrder;
 
     /**
      * @ORM\ManyToOne(targetEntity=Movie::class, inversedBy="castings")
+     * @Groups({"person_read"})
+     * @Groups({"person_list"})
      * 
      */
     private $movie;
 
     /**
      * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="castings")
-     * @Groups({"movie_read"})
+     * 
      */
     private $person;
 

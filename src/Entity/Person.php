@@ -18,23 +18,31 @@ class Person
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"movie_read"})
+     * @Groups({"person_read"})
+     * @Groups({"person_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"movie_read"})
+     * @Groups({"person_read"})
+     * @Groups({"person_list"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"movie_read"})
+     * @Groups({"person_read"})
+     * @Groups({"person_list"})
      */
     private $lastname;
 
     /**
      * @ORM\OneToMany(targetEntity=Casting::class, mappedBy="person")
+     * @Groups({"person_read"})
+     * @Groups({"person_list"})
      */
     private $castings;
 

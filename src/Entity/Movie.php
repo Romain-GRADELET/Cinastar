@@ -20,6 +20,8 @@ class Movie
      * @ORM\Column(type="integer")
      * @Groups({"genre_browse"})
      * @Groups({"movie_read"})
+     * @Groups({"person_read"})
+     * @Groups({"person_list"})
      */
     private $id;
 
@@ -28,6 +30,8 @@ class Movie
      * @Assert\NotBlank
      * @Groups({"genre_browse"})
      * @Groups({"movie_read"})
+     * @Groups({"person_read"})
+     * @Groups({"person_list"})
      */
     private $title;
 
@@ -96,6 +100,7 @@ class Movie
     /**
      * @ORM\OneToMany(targetEntity=Casting::class, mappedBy="movie")
      * @Groups({"movie_read"})
+     * 
      */
     private $castings;
 
