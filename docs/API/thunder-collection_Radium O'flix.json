@@ -1,0 +1,31 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Radium O'flix",
+    "dateExported": "2023-05-22T11:25:16.158Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "ea37d996-3d37-4831-8e5e-6b22f531387d",
+            "name": "Genres",
+            "containerId": "",
+            "created": "2023-05-22T11:23:22.948Z",
+            "sortNum": 10000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "5258cda4-b3b4-4b1e-9885-66286eaa6e14",
+            "colId": "b0195168-cd06-418c-88b6-8a9cba36aa74",
+            "containerId": "ea37d996-3d37-4831-8e5e-6b22f531387d",
+            "name": "http://localhost:8000/api/genres",
+            "url": "http://localhost:8000/api/genres",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-05-22T11:24:08.426Z",
+            "modified": "2023-05-22T11:24:08.426Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
