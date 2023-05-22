@@ -14,6 +14,14 @@ class MaintenanceSubscriber implements EventSubscriberInterface
 
         // * request, avec pathInfo
         // va nous servir pour tester la route et exclure certaine route
+        $pathInfo = $event->getRequest()->getPathInfo();
+        // dd($pathInfo); // /back/main
+        // ? https://www.php.net/manual/fr/function.strpos.php
+        // cette fonction PHP nous sert à savoir si la chaine de caractère commence par ...
+        if (strpos($pathInfo, "/back") === 0){
+            // on est sur une route du back, on s'arrête là
+            return;
+        }
 
         // * response, avec le content
         $response = $event->getResponse();
@@ -46,7 +54,7 @@ class MaintenanceSubscriber implements EventSubscriberInterface
             // sur quel contenu
             $response->getContent()
         ));
-        */ //=====================================================================
+         */ //=====================================================================
 
         // comme la méthode renvoit void, pas de return à faire de notre coté.
     }
