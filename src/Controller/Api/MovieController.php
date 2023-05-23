@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
     /**
      * @Route("/api/movie", name="app_api_movie_")
@@ -77,6 +78,8 @@ class MovieController extends AbstractController
      * Ajout d'un film
      * 
      * @Route("", name="add", methods={"POST"})
+     * 
+     * @IsGranted("ROLE_ADMIN")
      *
      * @param Request $request
      * @param SerializerInterface $serializer

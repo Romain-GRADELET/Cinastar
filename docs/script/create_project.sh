@@ -49,6 +49,9 @@ composer require symfony/security-bundle
 ## Le serializer de base ne sait pas aller chercher les propriétés privées
 composer require symfony/serializer
 
+## Générer les clés SSL 
+composer require "lexik/jwt-authentication-bundle"
+
 ## installation de tout les composants pour Doctrine
 ## A METTRE EN DERNIER car il nous pose une question à laquelle on répond 'x'
 composer require symfony/orm-pack
