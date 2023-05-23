@@ -195,5 +195,18 @@ class GenreController extends AbstractController
             );
     }
 
+    /**
+     * delete genre
+     *
+     * @Route("/{id}",name="delete", requirements={"id"="\d+"}, methods={"DELETE"})
+     */
+    public function delete($id, GenreRepository $genreRepository)
+    {
+        $genre = $genreRepository->find($id);
+        $genreRepository->remove($genre, true);
+
+        return $this->json(null,Response::HTTP_NO_CONTENT);
+    }
+
 
 }
