@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -144,7 +145,55 @@ class GenreController extends AbstractController
 
     }
 
+    /**
+     * edit genre
+     *
+     * @Route("/{id}",name="edit", requirements={"id"="\d+"}, methods={"PUT", "PATCH"})
+     *
+     * @param Request $request
+     * @param SerializerInterface $serializerInterface
+     * @param GenreRepository $genreRepository
+     * @return void
+     */
+    public function edit($id, Request $request, SerializerInterface $serializerInterface, GenreRepository $genreRepository)
+    {
+        // TODO : mettre à jour un genre
+        // 1. Récupérer les nouvelles valeurs avec le JSON
+        $jsonContent = $request->getContent();
 
+        // 2. aller chercher en BDD l'existant
+        $genre = $genreRepository->find($id);
+
+        // 3. Désérialiser tout en mettant à jour
+        $serializerInterface->deserialize(
+            // les données
+            $jsonContent,
+            // le type d'abjet
+            Genre::class,
+            // le format de donnée
+            "json",
+            // ? https://symfony.com/doc/5.4/components/serializer.html#deserializing-in-an-existing-object
+            // en contexte on précise que l'on veux POPULATE / PEUPLER un objet existant
+            [AbstractNormalizer::OBJECT_TO_POPULATE => $genre]
+        );
+        // * Comme on demandé la mise en jour d'un objet, pas besoin de récupérer la déserialisation
+        //dd($genre);
+        // 4. flush
+        $genreRepository->add($genre, true);
+
+        return $this->json(
+            $genre,
+            Response::HTTP_OK,
+            [],
+            [
+                "groups" =>
+                [
+                    "genre_read",
+                    "genre_browse"
+                ]
+            ]
+            );
+    }
 
 
 }
