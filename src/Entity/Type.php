@@ -18,12 +18,14 @@ class Type
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"movie_read"})
+     * @Groups({"movie_browse"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=10)
      * @Groups({"movie_read"})
+     * @Groups({"movie_browse"})
      */
     private $name;
 

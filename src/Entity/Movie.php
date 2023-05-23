@@ -20,6 +20,7 @@ class Movie
      * @ORM\Column(type="integer")
      * @Groups({"genre_browse"})
      * @Groups({"movie_read"})
+     * @Groups({"movie_browse"})
      * @Groups({"person_read"})
      * @Groups({"person_list"})
      */
@@ -30,6 +31,7 @@ class Movie
      * @Assert\NotBlank
      * @Groups({"genre_browse"})
      * @Groups({"movie_read"})
+     * @Groups({"movie_browse"})
      * @Groups({"person_read"})
      * @Groups({"person_list"})
      */
@@ -41,6 +43,7 @@ class Movie
      * @Assert\NotBlank
      * 
      * @Groups({"movie_read"})
+     * @Groups({"movie_browse"})
      */
     private $type;
 
@@ -54,6 +57,7 @@ class Movie
     /**
      * @ORM\Column(type="float")
      * @Groups({"movie_read"})
+     * @Groups({"movie_browse"})
      */
     private $rating;
 
@@ -61,6 +65,7 @@ class Movie
      * @ORM\Column(type="text")
      * @Assert\NotBlank
      * @Groups({"movie_read"})
+     * @Groups({"movie_browse"})
      */
     private $summary;
 
@@ -88,6 +93,7 @@ class Movie
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"movie_read"})
+     * @Groups({"movie_browse"})
      */
     private $poster;
 

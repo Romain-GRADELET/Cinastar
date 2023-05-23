@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class PersonController extends AbstractController
 {
     /**
-     * @Route("/{id}", name="read")
+     * @Route("/{id}", name="read", methods={"GET"})
      */
-    public function show($id, PersonRepository $personRepository): JsonResponse
+    public function read($id, PersonRepository $personRepository): JsonResponse
     {
         $person = $personRepository->find($id);
 
@@ -30,9 +30,9 @@ class PersonController extends AbstractController
     }
 
     /**
-     * @Route("/", name="list")
+     * @Route("", name="browse", methods={"GET"})
      */
-    public function list(PersonRepository $personRepository): JsonResponse
+    public function browse(PersonRepository $personRepository): JsonResponse
     {
         $persons = $personRepository->findAll();
 

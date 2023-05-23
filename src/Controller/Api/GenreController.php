@@ -7,12 +7,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/api/genres", name="app_api_genres_")
+ */
 class GenreController extends AbstractController
 {
     /**
-     * @Route("/api/genres", name="app_api_genres")
+     * @Route("", name="browse", methods={"GET"})
      */
-    public function index(GenreRepository $genreRepository): JsonResponse
+    public function browse(GenreRepository $genreRepository): JsonResponse
     {
         // TODO : lister tout les genres
         // BDD, Genre : GenreRepository
@@ -35,5 +38,21 @@ class GenreController extends AbstractController
                 ]
             ]
         );
+    }
+
+    /**
+     * @Route("/{id}", name="read", requirements={"id"="\d+"}, methods={"GET"})
+     */
+    public function read($id,GenreRepository $genreRepository): JsonResponse
+    {
+        $genre = $genreRepository->find($id);
+        return $this->json($genre, 200, [], 
+            [
+                "groups" => 
+                [
+                    "genre_read",
+                    "movie_browse"
+                ]
+            ]);
     }
 }
