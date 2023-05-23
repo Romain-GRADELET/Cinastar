@@ -40,10 +40,11 @@ class Movie
     /**
      * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="movies")
      * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank
      * 
      * @Groups({"movie_read"})
      * @Groups({"movie_browse"})
+     * 
+     * @Assert\NotBlank
      */
     private $type;
 
@@ -63,9 +64,10 @@ class Movie
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank
-     * @Groups({"movie_read"})
      * @Groups({"movie_browse"})
+     * @Groups({"movie_read"})
+     * @Assert\NotBlank
+     * @Assert\Length(min = 10)
      */
     private $summary;
 

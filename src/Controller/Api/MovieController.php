@@ -2,12 +2,16 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Movie;
 use App\Repository\MovieRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
     /**
      * @Route("/api/movie", name="app_api_movie_")
@@ -66,7 +70,54 @@ class MovieController extends AbstractController
         [
             "movie_read"
         ]
-    ]);
+        ]);
+    }
+
+    /**
+     * Ajout d'un film
+     * 
+     * @Route("", name="add", methods={"POST"})
+     *
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param MovieRepository $movieRepository
+     * @return void
+     */
+    public function add(Request $request, SerializerInterface $serializer, MovieRepository $movieRepository,ValidatorInterface $validatorInterface)
+    {
+        // Récupérer le contenu JSON
+        $jsonContent = $request->getContent();
+        // Désérialiser (convertir) le JSON en entité Doctrine Movie
+        try { // on tente de désérialiser
+            $movie = $serializer->deserialize($jsonContent, Movie::class, 'json');
+        } catch (Exception $exception){
+            // Si on n'y arrive pas, on passe ici
+            //dd($exception);
+            return $this->json("JSON Invalide", Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // on valide les données de notre entité
+        // ? https://symfony.com/doc/5.4/validation.html#using-the-validator-service
+        $errors = $validatorInterface->validate($movie);
+        // Y'a-t-il des erreurs ?
+        if (count($errors) > 0) {
+            // TODO Retourner des erreurs de validation propres
+            return $this->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        // On sauvegarde l'entité
+        $movieRepository->add($movie, true);
+
+        return $this->json(
+            $movie,
+            Response::HTTP_CREATED,
+            [],
+            ["groups"=>
+                [
+                "movie_read"
+                ]
+            ]
+        );
     }
 
     
