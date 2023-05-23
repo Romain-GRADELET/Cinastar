@@ -2,11 +2,14 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Genre;
 use App\Repository\GenreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/api/genres", name="app_api_genres_")
@@ -72,4 +75,76 @@ class GenreController extends AbstractController
                 ]
             ]);
     }
+
+    /**
+     * ajout d'un genre
+     *
+     * @Route("",name="add", methods={"POST"})
+     * 
+     * @return JsonResponse
+     */
+    public function add(Request $request, SerializerInterface $serializerInterface, GenreRepository $genreRepository)
+    {
+        // TODO : créer un genre
+
+        // TODO : récuperer les infos fournit par notre utilisateur
+        // comme pour les formulaires, on va chercher dans request
+        // dans request ce qui nous interesse c'est le contenu
+        $jsonContent = $request->getContent();
+        
+        //dd($jsonContent);
+        /* 
+        {
+            "name": "Radium"
+        }
+        */
+        // TODO : tranformer / deserialiser le json en objet
+        // j'utilise le service SerializerInterface pour ça
+        /** @var Genre $newGenre */
+        $newGenre = $serializerInterface->deserialize(
+            // les données à transformer/deserialiser
+            $jsonContent,
+            // vers quel type d'objet je veux deserialiser
+            Genre::class,
+            // quel est le format du contenu : json
+            'json'
+            // le paramètre de contexte nous servira pour les update
+        );
+
+        // dd($newGenre);
+        /* App\Entity\Genre {#10510 ▼
+            -id: null
+            -name: "Radium"
+            -movies: Doctrine\Common\Collections\ArrayCollection {#9996 ▶}
+            }
+            */
+        // * j'ai un objet Genre, prêt à être envoyé en BDD
+        // BDD, Genre, GenreRepository
+        $genreRepository->add($newGenre, true);
+
+        //dd($newGenre);
+        // TODO : un peu d'UX : on renvoit le bon code de statut : 201
+        return $this->json(
+            // on fournit l'objet créer
+            $newGenre,
+            // le code 201 pour la création
+            Response::HTTP_CREATED,
+            // toujour pas d'entête
+            [],
+            // on oublie pas le contexte car on serialise un objet
+            [
+                "groups" =>
+                [
+                    // j'utilise un groupe déjà existant
+                    "genre_read",
+                    "movie_browse"
+                ]
+            ]
+        );
+
+    }
+
+
+
+
 }
