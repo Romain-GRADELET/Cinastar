@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Repository\GenreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -46,6 +47,22 @@ class GenreController extends AbstractController
     public function read($id,GenreRepository $genreRepository): JsonResponse
     {
         $genre = $genreRepository->find($id);
+
+        // gestion 404
+        if ($genre === null){
+            // ! on est dans une API donc pas de HTML
+            // throw $this->createNotFoundException();
+            return $this->json(
+                // on pense UX : on fournit un message
+                [
+                    "message" => "Ce genre n'existe pas"
+                ],
+                // le code de status
+                Response::HTTP_NOT_FOUND
+                // On a pas besoin de préciser les autres arguments
+            );
+        }
+
         return $this->json($genre, 200, [], 
             [
                 "groups" => 

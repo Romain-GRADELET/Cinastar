@@ -44,6 +44,22 @@ class MovieController extends AbstractController
     public function read($id, MovieRepository $movieRepository): JsonResponse
     {
         $movie = $movieRepository->find($id);
+
+        // gestion 404
+        if ($movie === null){
+            // ! on est dans une API donc pas de HTML
+            // throw $this->createNotFoundException();
+            return $this->json(
+                // on pense UX : on fournit un message
+                [
+                    "message" => "Ce film n'existe pas"
+                ],
+                // le code de status
+                Response::HTTP_NOT_FOUND
+                // On a pas besoin de préciser les autres arguments
+            );
+        }
+
         return $this->json($movie, 200, [], 
     [
         "groups" => 
