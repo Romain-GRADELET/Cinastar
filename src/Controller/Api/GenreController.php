@@ -4,7 +4,6 @@ namespace App\Controller\Api;
 
 use App\Entity\Genre;
 use App\Repository\GenreRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +14,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * @Route("/api/genres", name="app_api_genres_")
  */
-class GenreController extends AbstractController
+class GenreController extends CoreApiController
 {
     /**
      * @Route("", name="browse", methods={"GET"})

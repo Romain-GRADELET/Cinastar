@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Repository\PersonRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
     /**
      * @Route("/api/person", name="app_api_person_")
      */
-class PersonController extends AbstractController
+class PersonController extends CoreApiController
 {
     /**
      * @Route("/{id}", name="read", methods={"GET"})

@@ -4,8 +4,8 @@ namespace App\Controller\Api;
 
 use App\Entity\Movie;
 use App\Repository\MovieRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
     /**
      * @Route("/api/movie", name="app_api_movie_")
      */
-class MovieController extends AbstractController
+class MovieController extends CoreApiController
 {
     /**
      * list all movies
@@ -90,13 +90,18 @@ class MovieController extends AbstractController
     {
         // Récupérer le contenu JSON
         $jsonContent = $request->getContent();
+
         // Désérialiser (convertir) le JSON en entité Doctrine Movie
         try { // on tente de désérialiser
             $movie = $serializer->deserialize($jsonContent, Movie::class, 'json');
+        } catch (EntityNotFoundException $e){
+            // spécial pour DoctrineDenormalizer
+            return $this->json("Denormalisation : ". $e->getMessage(), Response::HTTP_BAD_REQUEST);
         } catch (Exception $exception){
             // Si on n'y arrive pas, on passe ici
-            //dd($exception);
-            return $this->json("JSON Invalide", Response::HTTP_UNPROCESSABLE_ENTITY);
+            // dd($exception);
+            // code 400 ou 422
+            return $this->json("JSON Invalide : " . $exception->getMessage(), Response::HTTP_BAD_REQUEST);
         }
 
         // on valide les données de notre entité

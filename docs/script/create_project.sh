@@ -45,12 +45,17 @@ composer require security-csrf
 ## Package Sécurité
 composer require symfony/security-bundle
 
-## API
+# API ===============================
 ## Le serializer de base ne sait pas aller chercher les propriétés privées
 composer require symfony/serializer
 
 ## Générer les clés SSL 
 composer require "lexik/jwt-authentication-bundle"
+# ===================================
+
+# TEST ==============================
+composer require --dev symfony/test-pack
+# ===================================
 
 ## installation de tout les composants pour Doctrine
 ## A METTRE EN DERNIER car il nous pose une question à laquelle on répond 'x'
