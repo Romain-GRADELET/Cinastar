@@ -5,13 +5,24 @@ namespace App\Services;
 // composer require symfony/http-client
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-
 class OmdbApi 
 {
-    // Clé  dans .env
+
+    /**
+     * Clé pour accéder à l'API (dans .env.local)
+     *
+     * @var string
+     */
     private $apiKey;
+
+    /**
+     * Service client HTTP
+     *
+     * @var HttpClientInterface
+     */
     private $client;
 
+    /** @var HttpClientInterface $client */
     public function __construct(HttpClientInterface $client, $apiKey)
     {
         $this->client = $client;

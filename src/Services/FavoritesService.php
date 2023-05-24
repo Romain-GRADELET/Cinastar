@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entity\Movie;
+use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -10,11 +11,11 @@ class FavoritesService
 {
     
     /**
-     * le session utilisateur en cours
+     * le requete en cours
      *
-     * @var SessionInterface
+     * @var RequestStack
      */
-    private $session;
+    private $request;
 
     // TODO : de qui/quoi a-t-on besoin ? des quels services ? de quel classe ?
     // 1. la session : que l'on trouve dans RequestStack (trouvé via la commande debug:autowiring)
@@ -22,11 +23,21 @@ class FavoritesService
     // doivent être fait au niveau du constructeur
     public function __construct(RequestStack $request)
     {
-        $this->session = $request->getSession();
+        $this->request = $request;
+        // ! Accessing the session in the constructor is *NOT* recommended, since
+        // it might not be accessible yet or lead to unwanted side-effects
+        // $this->session = $requestStack->getSession();
         // ? a but de débug pour voir comment est fait la création de notre service
         // throw new Exception();
     }
 
+    /**
+    * get current session
+    */
+    public function getSession()
+    {
+        return $this->request->getSession();
+    }
 
     // TODO : quels sont les besoins/fonctionnalités que l'on délègue a ce service
     // 1. list
@@ -37,23 +48,22 @@ class FavoritesService
     
     public function list()
     {
-        $favoris = $this->session->get("favoris", []);
+        $favoris = $this->getSession()->get("favoris", []);
 
         return $favoris;
     }
 
-
     public function add(Movie $movie)
     {
-        // Je récupère ce qu'il y a déjà en session
-        $favorisList = $this->session->get("favoris", []);
+        // TODO améliorer avec un tableau
+        // je récupère ce qu'il y a déjà en session
+        $favorisList = $this->getSession()->get("favoris", []);
         // j'ajoute le nouveau film à un emplacement précis : son ID
         $favorisList[$movie->getId()] = $movie;
-        // TODO améliorer avec un tableau
-        $this->session->set("favoris", $favorisList);
-        
-    }
 
+        // je met à jour la session avec la nouvelle liste
+        $this->getSession()->set("favoris", $favorisList);
+    }
 
     public function remove(Movie $movie)
     {
@@ -61,27 +71,22 @@ class FavoritesService
         // 1. il me faut un id, parce que l'on pense au futur et la gestion de multiple favoris
         // 2. il me faut la session pour récupérer les favoris
 
-        $favorisList = $this->session->get("favoris", []);
+        $favorisList = $this->getSession()->get("favoris", []);
 
         if (array_key_exists($movie->getId(), $favorisList)){
             // ? https://www.php.net/manual/en/function.unset.php
             unset($favorisList[$movie->getId()]);
             // met à jour la session
-            $this->session->set("favoris", $favorisList);
-            
+            $this->getSession()->set("favoris", $favorisList);
         }
-
     }
 
     public function removeAll()
     {
-        // On met un tableau vide pour purger nos favoris
-        $this->session->set("favoris", []);
-
+        // on met un tableau vide pour purger nos favoris
+        $this->getSession()->set("favoris", []);
         // version plus bourine qui supprime directement la clé en session
-        // $this->session->remove("favoris");
-
+        $this->getSession()->remove("favoris");
     }
-
 
 }

@@ -119,7 +119,7 @@ class MainController extends AbstractController
 
         // TODO : faire une requete avec la jointure entre Casting et Person
         $castingsWithDQL = $castingRepository->findByMovieOrderByCreditOrderWithPerson($movie);
-        dump($allCastingFromMovie);
+        //dump($allCastingFromMovie);
 
         // TODO : aller chercher les review du film
         // BBD, repository, Review : injection

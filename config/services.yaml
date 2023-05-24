@@ -36,6 +36,7 @@ services:
             $argMaintenanceActive: '%env(bool:MAINTENANCE_ACTIVE)%'
         
     App\Services\OmdbApi:
+        public: true
         # on explique que notre service a des arguments
         arguments:
             # on précise alors le nom de l'argument
