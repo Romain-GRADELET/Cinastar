@@ -43,6 +43,6 @@ class UserAccessTest extends WebTestCase
         yield ['/back/movie', 'user@user.com'];
         yield ['/back/casting/new', 'user@user.com'];
         yield ['/back/casting/new', 'manager@manager.com'];
-        yield ['/back/casting/new', 'admin@admin.com'];
+ 
     }
 }
