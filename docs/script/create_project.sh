@@ -57,6 +57,10 @@ composer require "lexik/jwt-authentication-bundle"
 composer require --dev symfony/test-pack
 # ===================================
 
+# PAGINATOR =========================
+composer require knplabs/knp-paginator-bundle
+# ===================================
+
 ## installation de tout les composants pour Doctrine
 ## A METTRE EN DERNIER car il nous pose une question à laquelle on répond 'x'
 composer require symfony/orm-pack

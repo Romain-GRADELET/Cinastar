@@ -7,6 +7,7 @@ use App\Repository\CastingRepository;
 use App\Repository\GenreRepository;
 use App\Repository\MovieRepository;
 use App\Repository\ReviewRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,7 @@ class MainController extends AbstractController
      * 
      * @return Response
      */
-    public function home(Request $request, MovieRepository $movieRepository, GenreRepository $genreRepository): Response
+    public function home(Request $request, MovieRepository $movieRepository, GenreRepository $genreRepository, PaginatorInterface $paginator): Response
     {
 
         $allMovies = $movieRepository->findAll();
@@ -30,6 +31,15 @@ class MainController extends AbstractController
 
         $allGenres = $genreRepository->findAll();
         //dump($allGenres);
+
+
+        $allMovies = $paginator->paginate(
+            $allMovies, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            5 /*limit per page*/
+        );
+    
+
 
         // TODO : afficher la valeur de la session 'favoris'
         // ? pour accèder à la session, il me faut la requete
