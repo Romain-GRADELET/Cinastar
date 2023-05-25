@@ -79,7 +79,7 @@ class MainController extends AbstractController
     /**
      * Page des résultats d'un film/série
      * 
-     * @Route("/movie/{id}", name="app_front_show_movie", requirements={"id"="\d+"}), methods={"GET"}
+     * @Route("/movies/{id}", name="app_front_show_movie", requirements={"id"="\d+"}), methods={"GET"}
      *
      * @return Response
      */

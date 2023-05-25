@@ -16,9 +16,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class ReviewController extends AbstractController
 {
     /**
-     * @Route("/movie/{id}/review/add", requirements={"id"="\d+"}, name="app_front_review_add")
+     * @Route("/movies/{id}/review/add", requirements={"id"="\d+"}, name="app_front_review_add")
      * 
-     * @IsGranted("ROLE_USER")
      */
     public function create($id, Request $request, MovieRepository $movieRepository, EntityManagerInterface $entityManagerInterface, ReviewRepository $reviewRepository): Response
     {

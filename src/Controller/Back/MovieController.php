@@ -21,7 +21,6 @@ class MovieController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      * 
-     * @IsGranted("ROLE_MANAGER")
      * 
      */
     public function index(MovieRepository $movieRepository): Response
@@ -34,7 +33,6 @@ class MovieController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
      * 
-     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request, MovieRepository $movieRepository): Response
     {
@@ -61,7 +59,6 @@ class MovieController extends AbstractController
     /**
      * @Route("/{id}", name="show", requirements={"id"="\d+"}, methods={"GET"})
      * 
-     * @IsGranted("ROLE_MANAGER")
      */
     public function show(?Movie $movie): Response
     {
@@ -75,7 +72,6 @@ class MovieController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", requirements={"id"="\d+"}, methods={"GET", "POST"})
      * 
-     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, ?Movie $movie, MovieRepository $movieRepository): Response
     {
@@ -101,7 +97,6 @@ class MovieController extends AbstractController
     /**
      * @Route("/{id}/delete", name="delete", requirements={"id"="\d+"}, methods={"POST"})
      * 
-     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, ?Movie $movie, MovieRepository $movieRepository): Response
     {

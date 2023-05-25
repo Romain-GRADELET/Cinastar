@@ -12,7 +12,6 @@ class MainController extends AbstractController
     /**
      * @Route("/back/main", name="app_back_default")
      * 
-     * @IsGranted("ROLE_MANAGER")
      */
     public function index(): Response
     {

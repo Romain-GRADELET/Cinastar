@@ -65,7 +65,7 @@ security:
         - { path: ^/back, roles: ROLE_MANAGER }
         # /movies/999/review/add
         # - { path: ^\/movies\/\d+\/review\/add$, roles: ROLE_USER }
-        - { path: ^/movies/\d+/review/add$, roles: ROLE_USER }
+        # - { path: ^/movies/\d+/review/add$, roles: ROLE_USER }
         # /movies/999
         - { path: ^\/movies\/\d+$, roles: PUBLIC_ACCESS }
         # potentiellement inutile si toutes les autres URL sont restreintes

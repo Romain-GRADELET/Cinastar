@@ -19,7 +19,6 @@ class FavoritesController extends AbstractController
      * Afficher le/les film(s) en favoris
      * 
      * @Route("/favorites", name="app_front_favorites_movies", methods={"GET"})
-     * 
      *
      * @return Response
      */
@@ -41,7 +40,6 @@ class FavoritesController extends AbstractController
      *
      * @Route("/favorites/add/{id}", name="app_front_favorites_add", requirements={"id"="\d+"})
      * 
-     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
