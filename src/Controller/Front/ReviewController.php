@@ -71,6 +71,24 @@ class ReviewController extends AbstractController
             // Repository de la bonne entité : ReviewRepository
             // $reviewRepository->add($newReview, true);
 
+            // TODO : calcul du rating après l'ajout d'une review
+            // récupérer les critiques par film
+            $reviewByMovie = $reviewRepository->findBy(["movie" => $movie], ["watchedAt" => "DESC"]);
+            $rating = [];
+            foreach ($reviewByMovie as $review) {
+                $rating[] = $review->getRating();
+            }
+            $sum = array_sum($rating);
+            $count = count($rating);
+            if ($count !== 0) {
+                $average = round($sum/$count, 1);
+            } else {
+                $average = 0;
+            }
+            // on set le résultat dans la BDD entity Movie selon l'id movie passé en paramètre
+            $movie->setRating($average);
+            $entityManagerInterface->flush();    
+
             // Redirection vers la page du film
             return $this->redirectToRoute("app_front_show_movie", ["id"=> $movie->getId()]);
         }

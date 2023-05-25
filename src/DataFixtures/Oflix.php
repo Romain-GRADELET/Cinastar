@@ -6,21 +6,36 @@ use App\Entity\Casting;
 use App\Entity\Genre;
 use App\Entity\Movie;
 use App\Entity\Person;
+use App\Entity\Review;
 use App\Entity\Season;
 use App\Entity\Type;
 use App\Entity\User;
-use App\Repository\MovieRepository;
+use App\Services\OmdbApi;
+use Bluemmb\Faker\PicsumPhotosProvider;
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-
-use Xylis\FakerCinema\Provider\Movie as FakerMovieCinema;
-use Xylis\FakerCinema\Provider\Character as FakerCharacterCinema;
-use Bluemmb\Faker\PicsumPhotosProvider;
-
+use \Xylis\FakerCinema\Provider\Movie as FakerMovieProvider;
+use Xylis\FakerCinema\Provider\Person as FakerPersonProvider;
+use Xylis\FakerCinema\Provider\TvShow as FakerTvShowProvider;
+use \Xylis\FakerCinema\Provider\Character as FakerCharacterProvider;
+// possibilité de créer un alias pour éviter les doublons de noms dans le fichier
 
 class Oflix extends Fixture
 {
+    /**
+     * Service OmdbApi
+     *
+     * @var OmdbApi
+     */
+    private $omdbApi;
+
+    public function __construct(OmdbApi $omdbApi)
+    {
+        $this->omdbApi = $omdbApi;
+    }
+
     /**
      * Création de donnée
      *
@@ -28,15 +43,13 @@ class Oflix extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-
-        // utilisation de Faker
-        // use the factory to create a Faker\Generator instance
-        $faker = \Faker\Factory::create('fr_FR');
-        $faker->addProvider(new FakerMovieCinema($faker)); // Utilisation d'un Alians dans le Use
-        $faker->addProvider(new FakerCharacterCinema($faker)); // Utilisation d'un Alians dans le Use
-
-        // * les providers vont ajouter des méthodes avec de nouvelles fausses données
+        $faker = \Faker\Factory::create();
+        $fakerFr = \Faker\Factory::create('fr_FR');
         $faker->addProvider(new PicsumPhotosProvider($faker));
+        $faker->addProvider(new FakerMovieProvider($faker));
+        $faker->addProvider(new FakerPersonProvider($faker));
+        $faker->addProvider(new FakerTvShowProvider($faker));
+        $faker->addProvider(new FakerCharacterProvider($faker));
 
 
         // * la création de données
@@ -125,12 +138,16 @@ class Oflix extends Fixture
 
         /** @var Person[] $allPerson */
         $allPerson = [];
-        for ($i=0; $i < 2000; $i++) { 
+        for ($i=0; $i < 1000; $i++) { 
             // 1. faire une nouvelle instance
             $newPerson = new Person();
             //2. remplir les prop
-            $newPerson->setFirstname($faker->firstName());
-            $newPerson->setLastname($faker->lastName());
+            // si on utilise le faker cinema, il faut rajouter un traitement pour séparer prénom / nom
+            $actorFullName = $faker->actor();// Cate Blanchett
+            $actorNames = explode(" ", $actorFullName);
+            // ! JB aime pas l'utilisation de ce tableau sans vérifier que les index existe
+            $newPerson->setFirstname($actorNames[0]);
+            $newPerson->setLastname($actorNames[1]);
 
             // 3. demander la persitance
             $manager->persist($newPerson);
@@ -145,29 +162,56 @@ class Oflix extends Fixture
         // =======================================================
         /** @var Movie[] $allMovies */
         $allMovies = [];
-        for ($i=0; $i < 10; $i++) { 
+        for ($i=0; $i < 100; $i++) { 
             // 1. instance
             $newMovie = new Movie();
             // 2. prop
-            $newMovie->setTitle($faker->movie());
-            $newMovie->setDuration(mt_rand(10, 360));
-            $newMovie->setRating(mt_rand(0,50) / 10);
-            $newMovie->setSummary($faker->realText());
-            $newMovie->setSynopsis($faker->overview());
-            // ? https://www.php.net/manual/fr/datetime.construct.php
-            $newMovie->setReleaseDate(new DateTime($faker->date("Y-m-d")));
-            $newMovie->setCountry($faker->countryCode());
-
-            $defaultUrl = "https://amc-theatres-res.cloudinary.com/amc-cdn/static/images/fallbacks/DefaultOneSheetPoster.jpg";
-            $picsumDefaultUrl = ("https://picsum.photos/200/300");
-            $picsumSeedUrl = ("https://picsum.photos/seed/radium".$i."/200/300");
-            $fakerPicsumSeedUrl = $faker->imageUrl(200,300, 'radium'.$i);
-            
-            $newMovie->setPoster($fakerPicsumSeedUrl);
+            // $defaultUrl = "https://amc-theatres-res.cloudinary.com/amc-cdn/static/images/fallbacks/DefaultOneSheetPoster.jpg";
+            // $picsumSeededUrl = "https://picsum.photos/seed/radium".$i."/200/300";
+            // $fakerPicsumSeededUrl = $faker->imageUrl(200,300, 'radium-' . $i);
+            // $newMovie->setPoster($fakerPicsumSeededUrl);
 
             // 2.bis : les associations
             $randomType = $allTypes[mt_rand(0, count($allTypes)-1)];
             $newMovie->setType($randomType);
+
+            // TODO utiliser le service que vous avez créé : OMDBAPI
+            // * on décale la propriété title car avec le faker on veux différencier les titres            
+            if ($randomType->getName() === "série"){
+                $titleTvShow = $faker->tvShow();
+                $contentTvShow = $this->omdbApi->fetch($titleTvShow);
+                $newMovie->setTitle($titleTvShow);
+
+                $posterTvShow = $contentTvShow->getPoster();
+                $newMovie->setPoster($posterTvShow);
+
+
+                $summaryTvShow = $contentTvShow->getPlot();
+                $newMovie->setSummary($summaryTvShow);
+
+                $countryTvShow = $contentTvShow->getCountry();
+                $newMovie->setCountry($countryTvShow);
+            } else {
+                $titleMovie = $faker->movie();
+                $contentMovie = $this->omdbApi->fetch($titleMovie);
+                $newMovie->setTitle($titleMovie);
+
+                $posterMovie = $contentMovie->getPoster();
+                $newMovie->setPoster($posterMovie);
+
+                $summaryMovie = $contentMovie->getPlot();
+                $newMovie->setSummary($summaryMovie);
+
+                $countryMovie = $contentMovie->getCountry();
+                $newMovie->setCountry($countryMovie);
+            }
+
+            $newMovie->setDuration(mt_rand(10, 360));
+            $newMovie->setRating(mt_rand(0,50) / 10);
+
+            $newMovie->setSynopsis($fakerFr->realText(200,2));
+            // ? https://www.php.net/manual/fr/datetime.construct.php
+            $newMovie->setReleaseDate(new DateTime($faker->date()));
 
             // 3. persist
             $manager->persist($newMovie);
@@ -175,7 +219,6 @@ class Oflix extends Fixture
             // 4. tableau de fixtures
             $allMovies[] = $newMovie;
         }
-
 
 
         // =======================================================
@@ -205,8 +248,8 @@ class Oflix extends Fixture
         // =======================================================
 
         foreach ($allMovies as $movie) {
-            $randomNbGenre = mt_rand(3,5);
-            for ($i=0; $i < $randomNbGenre; $i++) { 
+            $randomNbGenre = mt_rand(1,3);
+            for ($i=0; $i <= $randomNbGenre; $i++) { 
                 // 1. je cherche un genre aléatoire
                 $randomGenre = $allGenre[mt_rand(0, count($allGenre)-1)];
                 // 2. je remplit l'association
@@ -238,6 +281,42 @@ class Oflix extends Fixture
             }
         }
 
+        // =======================================================
+        // TODO : Créer entre 0 et 4 review par movie
+        // =======================================================
+        $reactions = ['cry', 'smile', 'dream', 'think', 'sleep'];
+        $rating = [];
+        foreach ($allMovies as $movie) {
+            $randomNbReview = mt_rand(0, 5);
+            
+            for ($i=0; $i < $randomNbReview; $i++) {
+                // 1. faire une nouvelle instance
+                /** @var Review $newReview */
+                $newReview = new Review();
+                //2. remplir les prop
+                $newReview->setUsername($faker->userName());
+                $newReview->setEmail($faker->email());
+                $newReview->setContent($fakerFr->realText(30, 1));
+                $newReview->setRating($faker->numberBetween(1,5));
+                // créer un nombre de réactions aléatoire entre 1 et 5
+                $randomNbReaction = $faker->numberBetween(0, count($reactions) -1);
+                $newReview->setReactions([$reactions[$randomNbReaction]]);
+                $newReview->setWatchedAt(new DateTimeImmutable($faker->date()));
+
+                // calcul rating moyen
+                $rating[] = $newReview->getRating();
+                $sum = array_sum($rating);
+                $count = count($rating);
+                // moyenne arrondie à 1 chiffre après virgule
+                $average = round($sum/$count, 1);
+                $movie->setRating($average);
+                $newReview->setMovie($movie);
+
+                // 3. demander la persitance
+                $manager->persist($newReview);
+
+            }
+        }
 
         // * appeler la méthode flush
         // c'est ici que les requetes SQL sont exécutées

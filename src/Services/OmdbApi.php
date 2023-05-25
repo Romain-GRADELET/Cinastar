@@ -3,13 +3,16 @@
 namespace App\Services;
 
 // composer require symfony/http-client
+
+use App\Models\OmdbApiModel;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 
 class OmdbApi 
 {
-
     /**
-     * Clé pour accéder à l'API (dans .env.local)
+     * Clé pour accéder à l'API
      *
      * @var string
      */
@@ -22,14 +25,21 @@ class OmdbApi
      */
     private $client;
 
-    /** @var HttpClientInterface $client */
-    public function __construct(HttpClientInterface $client, $apiKey)
+    /**
+     * Service de désérialisation
+     *
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    public function __construct(HttpClientInterface $client,SerializerInterface $serializerInterface, $apiKey)
     {
         $this->client = $client;
         $this->apiKey = $apiKey;
+        $this->serializer = $serializerInterface;
     }
 
-    public function fetch(string $title): array
+    public function fetch(string $title): OmdbApiModel
     {
         $response = $this->client->request(
             'GET',
@@ -42,17 +52,20 @@ class OmdbApi
             ]
         );
 
-        $statusCode = $response->getStatusCode();
+        // $statusCode = $response->getStatusCode();
         // $statusCode = 200
-        $contentType = $response->getHeaders()['content-type'][0];
+        // $contentType = $response->getHeaders()['content-type'][0];
         // $contentType = 'application/json'
         $content = $response->getContent();
         // $content = '{"id":521583, "name":"symfony-docs", ...}'
-        $content = $response->toArray();
+        // $content = $response->toArray();
         // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
         
-        return $content;
+        /** @var OmdbApiModel $omdbApiModel */
+        $omdbApiModel = $this->serializer->deserialize($content, OmdbApiModel::class, 'json');
+
+        // dd($omdbApiModel);
+
+        return $omdbApiModel;
     }
 }
-
-

@@ -23,7 +23,7 @@ class Review
      * @Assert\NotBlank
      * ? https://symfony.com/doc/5.4/reference/constraints/Length.html
      * @Assert\Length(
-     *      min = 5,
+     *      min = 2,
      *      max = 50,
      *      minMessage = "Your username must be at least {{ limit }} characters long",
      *      maxMessage = "Your username cannot be longer than {{ limit }} characters"
