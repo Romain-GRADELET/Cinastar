@@ -23,7 +23,8 @@
         {% set isBackOffice = (app.request.attributes.get("_route") starts with "app_back_") %}
         {% include 'partials/_fullnav.html.twig' with {'isBackOffice': isBackOffice}  %}
         
-        <div class="container">
+        <div class="container-fluid">
+        
         {% include "partials/_flash.html.twig" %}
         {% block body %}{% endblock %}
         </div>

@@ -6,10 +6,12 @@
     <h1>Liste des films / séries</h1>
 
     {% if is_granted('ROLE_ADMIN') %}
+
     <a href="{{ path('app_back_movie_new') }}" class="btn btn-success">Ajouter un film / une série</a>
+
     {% endif %}
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -40,13 +42,13 @@
                 <td>{{ movie.synopsis }}</td>
                 <td>{{ movie.releaseDate ? movie.releaseDate|date('d-m-Y') : '' }}</td>
                 <td>{{ movie.country }}</td>
-                <td>{{ movie.poster }}</td>
+                <td class="text-start text-break img-thumbnail"><img src="{{ movie.poster }}"</img></td>
                 <td>
-                    <a href="{{ path('app_back_movie_show', {'id': movie.id}) }}" class="btn btn-primary">Voir</a>
+                    <a href="{{ path('app_back_movie_show', {'id': movie.id}) }}" class="btn btn-primary btn-md mb-2">Voir</a>
 
                     {# Si l'utilisateur est ADMIN alors il a accès au lien #}
                     {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('app_back_movie_edit', {'id': movie.id}) }}" class="btn btn-warning">edit</a>
+                    <a href="{{ path('app_back_movie_edit', {'id': movie.id}) }}" class="btn btn-warning btn-md mb-2">edit</a>
                     {% endif %}
 
                 </td>

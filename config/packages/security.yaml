@@ -49,27 +49,18 @@ security:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         
-        # /back/casting/{id}/edit 
-        - { path: ^\/back\/\w+\/\d+\/edit$, roles: ROLE_ADMIN }
-        # ? https://symfony.com/doc/5.4/security/access_control.html
-        # POST /back/casting/{id} 
-        - { path: ^\/back\/\w+\/\d+$, roles: ROLE_ADMIN , methods: [POST] }
-        # GET /back/casting/{id} 
+        # Admin : Si ROLE_MANAGER : accès aux pages de "listes" = method GET  movie, genres etc. et pages show (si existantes).
         - { path: ^\/back\/\w+\/\d+$, roles: ROLE_MANAGER, methods: [GET] }
-        # /back/casting/new
-        - { path: ^\/back\/\w+\/new$, roles: ROLE_ADMIN }
-        # /back/casting/
-        - { path: ^\/back\/\w+\/$, roles: ROLE_MANAGER }
-        
-        # /back/movie , /back/main 
-        - { path: ^/back, roles: ROLE_MANAGER }
-        # /movies/999/review/add
-        # - { path: ^\/movies\/\d+\/review\/add$, roles: ROLE_USER }
-        # - { path: ^/movies/\d+/review/add$, roles: ROLE_USER }
-        # /movies/999
-        - { path: ^\/movies\/\d+$, roles: PUBLIC_ACCESS }
-        # potentiellement inutile si toutes les autres URL sont restreintes
-        - { path: ^/, roles: PUBLIC_ACCESS }
+        # Admin : Sécuriser toutes les routes /add /edit /delete avec ROLE_ADMIN.
+        - { path: ^\/back\/\w+\/\w+, roles: ROLE_ADMIN }
+        # Admin : Si ROLE_MANAGER et ROLE_ADMIN : accès backoffice 
+        - { path: ^\/back, roles: ROLE_MANAGER }
+        # Front : Si ROLE_USER : ajouter une critique sur un film.
+        # - { path: ^\/review\/add\/\d+$, roles: ROLE_USER }
+        # Front : Si ROLE_USER : ajouter un favoris
+        - { path: ^\/favorites$, roles: ROLE_USER }
+        # Front : Si user ANONYME : page d'accueil + fiche film seulement.
+        - { path: ^\/|(\/?films)|(\/?\/\d+)$, roles: PUBLIC_ACCESS }
 
     role_hierarchy:
         # le ROLE_ADMIN inclus le ROLE_MANAGER

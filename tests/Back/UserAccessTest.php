@@ -15,7 +15,7 @@ class UserAccessTest extends WebTestCase
      * 
      * @param string $url
      */
-    public function testBackForbidden($url, $email): void
+    public function testBackForbidden($url, $email, $codeStatus): void
     {
         $client = self::createClient();
 
@@ -28,7 +28,7 @@ class UserAccessTest extends WebTestCase
 
         $client->request('GET', $url);
 
-        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+        $this->assertResponseStatusCodeSame($codeStatus);
     }
 
 
@@ -39,10 +39,11 @@ class UserAccessTest extends WebTestCase
      */
     public function getUrls()
     {
-        yield ['/back/main', 'user@user.com'];
-        yield ['/back/movie', 'user@user.com'];
-        yield ['/back/casting/new', 'user@user.com'];
-        yield ['/back/casting/new', 'manager@manager.com'];
+        yield ['/back/main', 'user@user.com', Response::HTTP_FORBIDDEN];
+        yield ['/back/movie', 'user@user.com', Response::HTTP_FORBIDDEN];
+        yield ['/back/casting/new', 'user@user.com', Response::HTTP_FORBIDDEN];
+        yield ['/back/casting/new', 'manager@manager.com', Response::HTTP_FORBIDDEN];
+        yield ['/back/casting/new', 'admin@admin.com',Response::HTTP_OK];
  
     }
 }

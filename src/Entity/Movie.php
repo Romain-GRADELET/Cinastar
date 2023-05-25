@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MovieRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Movie
 {
@@ -117,6 +118,11 @@ class Movie
      * @Groups({"movie_read"})
      */
     private $seasons;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function __construct()
     {
@@ -318,6 +324,29 @@ class Movie
                 $season->setMovie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * mettre à jour la date de modification de l'entité Movie dès qu'elle est modifiée côté back
+     */
+    public function preUpdateCallback()
+    {
+        $this->updatedAt = new \DateTime("now");
 
         return $this;
     }

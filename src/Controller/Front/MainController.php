@@ -62,16 +62,19 @@ class MainController extends AbstractController
      *
      * @return Response
      */
-    public function list(GenreRepository $genreRepository): Response
+    public function search(Request $request, MovieRepository $movieRepository, GenreRepository $genreRepository): Response
     {
         $allGenres = $genreRepository->findAll();
+
+        $search = $request->query->get("search", "");
+        $movieSearch = $movieRepository->findBySearch($search);
         //dump($allGenres);
 
-
         // On peut return directement sur $this pour ne pas mettre une variable intermédiaire
-        return $this->render("front/main/list.html.twig", 
+        return $this->render("front/main/search.html.twig", 
         [
-            "genreList" => $allGenres
+            "genreList" => $allGenres,
+            "movieSearch" => $movieSearch
         ]);
     }
 

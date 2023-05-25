@@ -20,24 +20,24 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
                     {% if isBackOffice %}
 
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{path('app_back_default')}}">Accueil Backoffice</a>
+                            <a class="nav-link {{ app.request.get('_route') == 'default' ? 'active' : '' }}" href="{{path('app_back_default')}}">Accueil Backoffice</a>
                         </li>
 
                         {% if is_granted("ROLE_ADMIN") %}
                             <li class="nav-item">
-                                <a class="nav-link active" href="{{path('app_back_user_index')}}">Gestion User</a>
+                                <a class="nav-link {{ app.request.get('_route') == 'app_back_user_index' ? 'active' : '' }}" href="{{path('app_back_user_index')}}">Gestion User</a>
                             </li>
                         {% endif %}
                         
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{path('default')}}">Accueil</a>
+                            <a class="nav-link {{ app.request.get('_route') == 'default' ? 'active' : '' }}" href="{{path('default')}}">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{path('app_front_movie_search')}}"><i class="bi bi-film"></i> Films, séries TV</a>
+                            <a class="nav-link {{ app.request.get('_route') == 'app_front_movie_search' ? 'active' : '' }}" href="{{path('app_front_movie_search')}}"><i class="bi bi-film"></i> Films, séries TV</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{path('app_front_favorites_movies')}}"><i class="bi bi-bookmark"></i> Ma liste</a>
+                            <a class="nav-link {{ app.request.get('_route') == 'app_front_favorites_movies' ? 'active' : '' }}" href="{{path('app_front_favorites_movies')}}"><i class="bi bi-bookmark"></i> Ma liste</a>
                         </li>
                     {% endif %}
 
@@ -88,7 +88,7 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
                 {% endif %}
 
 
-                <form class="d-flex" action="list.html">
+                <form class="d-flex" action="{{ path ('app_front_movie_search')}}">
                     <input class="form-control form-control-sm me-2" name="search" type="search" placeholder="Rechercher...">
                     <button class="btn btn-outline-danger" type="submit"><i class="bi bi-search"></i></button>
                 </form>
