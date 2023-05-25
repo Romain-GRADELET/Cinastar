@@ -99,6 +99,12 @@ il faut donc modifier la config de apache
 
 cf annexes
 
+il nous manque plus que le token JWT
+
+```bash
+bin/console lexik:jwt:generate-keypair
+
+
 il ne nous reste plus qu'a passer en PROD
 Dans le dossier de notre projet
 
