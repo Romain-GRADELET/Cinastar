@@ -3,8 +3,14 @@ Une vue partielle sera utilisé avec l'instruction include
 donc il n'y a pas de block, car on ne fait pas d'héritage
 c'est vraiment une inclusion du code HTML/twig de cette vue
 #}
+
+{% if app.session.get("theme") %}
+{% set theme = app.session.get("theme") %}
+
+
+
     <!-- Nav -->
-    <nav class="navbar navbar-expand-lg navbar-dark {% if isBackOffice %}bg-success{% else %}bg-dark{% endif %}">
+    <nav class="navbar navbar-expand-lg navbar-dark {% if isBackOffice %}bg-success{% elseif theme == "Allocine" %}bg-yellow {% else %}bg-dark{% endif %}">
         <div class="container-fluid">
             <a href="{{path('default')}}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo">
                 <img src="{{ asset('favicon1.png') }}" height="24" alt="Logo O'flix">
@@ -100,3 +106,4 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
             </div>
         </div>
     </nav>
+{% endif %}
