@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}Création d'un compte utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
+<div class="container-md bg-light my-5 d-flex p-5">
+    <div class="row m-auto">
 
-    {{ include('front/user/_form.html.twig') }}
+        <div class="col">
+            <h1>Création de votre profil</h1>
 
-    <a href="{{ path('default') }}">back to list</a>
+            {{ include('front/user/_form.html.twig') }}
+
+            <a href ="{{ path('default') }}" class="btn btn-danger">Retour</a>
 {% endblock %}

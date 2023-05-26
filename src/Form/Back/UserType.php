@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -19,6 +20,14 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('firstname',TextType::class, [
+                "label" => "Prénom"
+            ])
+
+            ->add('lastname', TextType::class, [
+                "label" => "Nom"
+            ])
+
             ->add('email', EmailType::class, [
                 "label" => "Email pour se logger"
             ])
@@ -32,7 +41,7 @@ class UserType extends AbstractType
                 // On conditionne le champ "password"
                 // Si user existant, il a id non null
                 if ($user->getId() !== null) {
-                    // Edit
+                    // mode EDITION
                     $builder->add('password', PasswordType::class, [
                         // je ne veux pas que le formulaire mettes automatiquement à jour la valeur
                         // je désactive la mise à jour automatique de mon objet par le formulaire
@@ -51,7 +60,7 @@ class UserType extends AbstractType
                         ],
                     ]);
                 } else {
-                    // New
+                    // mode CREATION
                     $builder->add('password', null, [
                         // En cas d'erreur du type
                         // Expected argument of type "string", "null" given at property path "password".

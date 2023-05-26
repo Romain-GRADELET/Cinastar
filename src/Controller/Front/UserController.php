@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\Front\UserFrontType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,14 +20,22 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET", "POST"})
      */
-    public function new(Request $request, UserRepository $userRepository): Response
+    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserFrontType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setRoles(["ROLE_USER"]);
+            $plaintextPassword = $user->getPassword();
+            $passwordHashed = $passwordHasher->hashPassword($user,  $plaintextPassword);
+            $user->setPassword($passwordHashed);
             $userRepository->add($user, true);
+
+            $this->addFlash(
+                'success',
+                'Bravo ' . $user->getFirstname() . ' vous êtes bien enregistré!');
 
             return $this->redirectToRoute('default', [], Response::HTTP_SEE_OTHER);
         }
