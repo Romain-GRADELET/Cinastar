@@ -3,7 +3,7 @@
 namespace App\Controller\Back;
 
 use App\Entity\Movie;
-use App\Form\MovieType;
+use App\Form\Back\MovieType;
 use App\Repository\MovieRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
