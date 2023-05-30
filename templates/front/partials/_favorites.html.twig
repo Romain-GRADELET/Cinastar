@@ -1,5 +1,8 @@
-{% if app.session.get('favoris') is not empty %}
-    {% set favorisList = app.session.get('favoris', []) %}
+{# {% if app.session.get('favoris') is not empty %} #}
+{% if app.user.getFavoris is not empty %}
+    {# {% set favorisList = app.session.get('favoris', []) %} #}
+    {% set favorisList = app.user.getFavoris %}
+
     {# pour avoir uniquement les ID #}
     {% set favorisListIds = favorisList|map(item => item.id) %}
 

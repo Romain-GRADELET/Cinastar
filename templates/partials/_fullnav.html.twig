@@ -8,9 +8,9 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
 {% set theme = app.session.get("theme") %}
 
 
-
     <!-- Nav -->
     <nav class="navbar navbar-expand-lg navbar-dark {% if isBackOffice %}bg-success{% elseif theme == "Allocine" %}bg-yellow {% else %}bg-dark{% endif %}">
+
         <div class="container-fluid">
             <a href="{{path('default')}}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo">
                 <img src="{{ asset('favicon1.png') }}" height="24" alt="Logo O'flix">
@@ -106,4 +106,106 @@ c'est vraiment une inclusion du code HTML/twig de cette vue
             </div>
         </div>
     </nav>
+
+{% else %}
+
+ <!-- Nav -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <div class="container-fluid">
+            <a href="{{path('default')}}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none header-logo">
+                <img src="{{ asset('favicon1.png') }}" height="24" alt="Logo O'flix">
+                <span class="header-logo__title">O'flix</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                
+                    {% if isBackOffice %}
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.get('_route') == 'default' ? 'active' : '' }}" href="{{path('app_back_default')}}">Accueil Backoffice</a>
+                        </li>
+
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <li class="nav-item">
+                                <a class="nav-link {{ app.request.get('_route') == 'app_back_user_index' ? 'active' : '' }}" href="{{path('app_back_user_index')}}">Gestion User</a>
+                            </li>
+                        {% endif %}
+                        
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.get('_route') == 'default' ? 'active' : '' }}" href="{{path('default')}}">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.get('_route') == 'app_front_movie_search' ? 'active' : '' }}" href="{{path('app_front_movie_search')}}"><i class="bi bi-film"></i> Films, séries TV</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.get('_route') == 'app_front_favorites_movies' ? 'active' : '' }}" href="{{path('app_front_favorites_movies')}}"><i class="bi bi-bookmark"></i> Ma liste</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ app.request.get('_route') == 'app_front_user_new' ? 'active' : '' }}" href="{{path('app_front_user_new')}}"><i class="bi bi-bookmark"></i> s'inscrire</a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+
+            {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown">
+
+                            <span>Bienvenue {{app.user.firstname}}</span>
+                                                     
+                            <i class="bi bi-person-square"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ path ('app_front_user_show', {'id': app.user.id})}}">Profil</a></li>
+                            <li>
+                                {% if isBackOffice %}
+                                    <a class="dropdown-item" href="{{ path('default')}}">Frontoffice</a>                                  
+                                {% else %}
+                                    {% if is_granted("ROLE_ADMIN", "ROLE_MANAGER") %}
+                                        <a class="dropdown-item" href="{{ path('app_back_default')}}">Backoffice</a>
+                                    {% endif %}
+                                {% endif %}
+                            </li>
+                            <li><hr class="dropdown-divider"></li> 
+                            <li><a class="dropdown-item" href="{{ path('app_logout')}}">Déconnexion</a></li> 
+                            <li><hr class="dropdown-divider"></li> 
+                            <li>
+                                    <ul>
+                                        {% for role in app.user.roles %}
+                                            <li>{{ role }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                        </ul>
+                    </li>
+                </ul>
+            {% endif %}
+
+                {# Si je suis connecté affiche le bouton DECONNEXION #}
+                {% if is_granted("IS_AUTHENTICATED_FULLY")%}
+                    <a href="{{ path('app_logout') }}"><button type="button" class="btn btn-danger me-2">Déconnexion</button></a>
+                    
+                {% else %}
+                {# Si je ne suis pas connecté affiche le bouton DECONNEXION #}
+                    <a href="{{ path('app_login') }}"><button type="button" class="btn btn-danger me-2">Connexion</button></a>
+                {% endif %}
+
+
+                <form class="d-flex" action="{{ path ('app_front_movie_search')}}">
+                    <input class="form-control form-control-sm me-2" name="search" type="search" placeholder="Rechercher...">
+                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
 {% endif %}
