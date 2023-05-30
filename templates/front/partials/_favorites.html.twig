@@ -1,5 +1,6 @@
 {# {% if app.session.get('favoris') is not empty %} #}
-{% if app.user.getFavoris is not empty %}
+
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
     {# {% set favorisList = app.session.get('favoris', []) %} #}
     {% set favorisList = app.user.getFavoris %}
 

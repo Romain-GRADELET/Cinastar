@@ -57,6 +57,15 @@ class FavoritesController extends AbstractController
         // avec un paramètre de route : {id}
         // dd($id);
 
+        // TODO : Si je ne suis pas connecté -> redirection vers la page de Login
+        /**
+         * @var App\Entity\User
+         */
+        $user = $this->getUser();
+        if ($user === null){
+            return $this->redirectToRoute('app_login');
+        }
+
         // TODO : j'ai besoin des informations du film en question
         $movie = $movieRepository->find($id);
 
