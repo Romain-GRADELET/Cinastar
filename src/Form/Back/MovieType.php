@@ -65,7 +65,7 @@ class MovieType extends AbstractType
                 'choice_label' => 'name',
 
             ])
-            ->add('genres', EntityType::class, [
+            ->add('genre', EntityType::class, [
                     // * c'est un ChoiceType : multiple + expanded
                     // ! Genres c'est un tableau : multiple = true
                     "multiple" => true,

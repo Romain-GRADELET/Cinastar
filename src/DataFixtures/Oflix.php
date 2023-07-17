@@ -237,7 +237,7 @@ class Oflix extends Fixture
             for ($i=1; $i <= $randomNbCasting; $i++) { 
                 // 1 .
                 $newCasting = new Casting();
-                // 2. 
+                // 2.   
                 $newCasting->setRole($faker->character());
                 $newCasting->setCreditOrder($i);
                 // 2.b
