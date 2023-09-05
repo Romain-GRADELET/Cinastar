@@ -20,7 +20,6 @@ class MovieController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
-     * 
      */
     public function index(MovieRepository $movieRepository): Response
     {
